@@ -1,0 +1,427 @@
+
+
+ @import url('https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i&display=swap');
+
+h1 ,h2 ,h3 ,h4 ,h5 ,h6, p{
+font-family: 'Roboto', sans-serif;
+}
+
+
+
+body{
+    margin: 0;
+    padding: 0;
+ }
+ .header-part {
+    max-width: 100%;
+    min-height: 142px;
+    width: 1000px;
+    margin: 0 auto;
+    padding: 0;
+ }
+ #mainLogo {
+    width: 776px;
+    float: left;
+    padding: 0px;
+ }
+ #mainLogo img {
+    position: relative;
+    max-width: 100%
+ }
+ .Header img {
+    max-width: 300px;
+ }
+.helplineNum ul{
+    padding: 10px 0px 0px 0px;
+    margin: 0px;
+}
+.helplineNum li{
+    list-style: none;
+    line-height: 1.2;
+}
+.Registered{
+    color: #4862AF;
+    font-weight: 600;
+    }
+.Generate{
+        color: #4862AF;
+    font-weight: 600;
+    }
+ .menuBar{
+    background: -webkit-linear-gradient(top, #264d7f, #02143f);
+    background-color: #153063;
+    width: 100%;
+    min-height: 37px;
+ }
+ .menuBar ul{
+        margin-left: 130px;
+ }
+ .menuBar ul li{
+    float: left;
+    list-style: none;
+ }
+ .menuBar ul li a{
+    font-size: 14px;
+    text-decoration: none;
+    color: #dddddd;
+    line-height: 3;
+       padding: 12px 12px;
+ }
+ 
+/*--------- Updated Css ------ */
+
+.bg-dark {
+    background-color: #2D4690!important;
+}
+.navbar-expand-md .navbar-nav .nav-link {
+    padding: 0rem 2.8rem 0rem .5rem;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color:#fff;
+}
+.navbar-nav {
+    margin: 0px auto !important;
+}
+.Ca_sub_Text {
+    padding: 25px 50px 25px 50px;
+}
+#Ca_content_body .card-body{
+    padding:18px;
+    background-color: #2D4285;
+   
+}
+ .list-inline{
+    margin:0px;
+}
+ .list-inline li {
+    display: inline-block;
+    vertical-align: middle;
+}
+#Ca_content_body .list-inline li:nth-child(2){
+    width:60%;
+    padding-left:8px;
+}
+#Ca_content_body .protfolio_cards{
+    height: 115px;
+    margin: 10px 0px;
+}
+.caption-1 {
+  padding: 15px 0px 0px 0px;
+}
+#Ca_content_body .img-responsive{
+   height: 110px;
+    width: 110px;
+    border-radius: 50%;
+    /* border-color: white; */
+    background: white;
+    display:block;
+margin: 20px auto 0px auto;
+border:1px solid #ccc;
+}
+#Ca_content_body .card {
+      box-shadow: 3px 2px 5px 2px #c3c3c3;
+}
+.Ca_sub_Text h3 {
+background-color: #d4edda;
+    text-align: center;
+    border-radius: 11px;
+    padding: 10px;
+    color: #155724;
+    font-size: 17px;
+}
+.caption-1 h4{
+     color: #2d4690;
+    font-weight: 600;
+    line-height: 20px;
+    font-size:16px;
+    margin:0px;
+}
+.caption-2 {
+color:#2d4690;
+font-size:13px;
+}
+.ca_about_us {
+    padding: 15px 10px 10px 10px;
+}
+.ca_about_us h4{
+    color:#2D4483;
+    text-align: center;
+        font-size:18px;
+}
+.ca_about_us p{
+      color: #A7A8AB;
+    font-size: 13px;
+
+}
+div#loginformblock {
+    margin-top: 12px;
+}
+.formgheader {
+ text-align: center;
+ color: #2D4383;
+ padding:7px;
+  font-size:18px;
+        }
+.verificationblock h4 {
+    font-size: 18px;
+}
+.submitbtn {
+text-align: center;
+ color: #ffffff;
+ /* background: #2D4383; */
+ }
+
+.submitbtn button {
+ background: #2D4383;
+border: none;
+  border-radius: 4px;
+width: 74px;
+ padding: 6px;
+ color: #ffffff;
+        }
+
+
+.providers {
+    padding: 15px 9px 15px 9px;
+}
+        .providers p {
+          text-align: center;
+          color: #2D4383;
+          text-decoration: underline;
+          font-weight: 500;
+          font-size: 14px;
+          padding: 0px 0px 5px 0px;
+          margin: 5px;
+        }
+
+ .formblock {
+ border-left: none;
+ border-top: none;
+border-right: none;
+ border-bottom: 1px solid #ccc;
+    border-radius: 0px;
+    outline: 0px !important;
+    box-shadow: none !important;
+  }
+.verificationblock {
+  text-align: center;
+   color: #2D4383;
+   background: #ffffff;
+ padding:15px;
+     padding: 24px 0px 24px 0px;
+    box-shadow: 3px 2px 5px 2px #c3c3c3;
+    }
+ .verifybtn {
+ text-align: center;
+  margin-top: 22px;
+}
+.verifybtn button{
+ text-align: center;
+ color: #ffffff;
+ background: #2D4383;
+   border: none;
+ border-radius: 4px;
+ width: 108px;
+  padding: 6px;
+ }
+  .verifybtn button :active{
+ background: #2D4383;
+    }
+.loginform{
+ background: #ffffff;
+  padding: 8px 0px 10px 0px;
+ }
+ .siderbarlgnform{
+  padding: 0px 10px 0px 10px;
+}
+ #verificationblock{
+ margin: 10px 0px 0px 0px;
+  box-shadow: 3px 2px 5px 2px #c3c3c3;
+       }
+
+
+#Ca_content_body {
+    padding: 0px 0px 10px 0px;
+}
+.first_time_sign_up{
+    float:right;
+}
+
+.dummyTxt{
+    font-weight: 300;
+    color: #848282;
+    font-size: 14px;
+    line-height: 21px;
+    letter-spacing: 0.2px;
+ }
+
+ .aboutICSITxt
+ {
+    padding: 10px 0;
+    color: #2C4383;
+    text-align: center;
+    font-weight: 500;
+    font-size: 20px;
+    margin: 0px;
+ }
+
+ .dummySecondTxt{
+  font-weight: 500;
+  color: #555;
+  font-size: 14px;
+  line-height: 20px;
+ }
+
+ .ClickHerCentertxt {
+    padding: 10px;
+    color: #901515;
+    margin: 5px auto 0px auto;
+ }
+ 
+ .ClickHerCentertxt h3{
+  text-align: Center;
+  margin: 0px;
+  font-size: 17px;
+  padding: 5px;
+  font-weight: 500;
+ }
+ 
+ .ClickHerCentertxt p{
+ text-align:Center;
+ font-size:14px;
+ }
+ #example1 {
+    padding: 10px 10px 30px 10px;
+      box-shadow: 3px 2px 5px 2px #c3c3c3;
+    margin-top: 10px;
+}
+
+#example2 {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 3px 2px 5px 2px #c3c3c3;
+}
+
+#example3 {
+  border: 1px solid;
+  padding: 10px;
+  box-shadow: 5px 10px 18px red;
+}
+  ul li{
+    color:blue;
+    line-height: 2;
+ }
+ #example1 ul{
+    margin: 0px;
+    padding-left: 25px;
+ }
+ .watSnWtXT {
+ color:#2E4CA5;
+ font-weight:500;
+ font-size:20px;
+ text-align:center;
+    margin: 0px 0px 10px 0px;
+ }
+#Icsi_top_header .container-fluid{
+       padding-left:0px;
+       padding-right:0px ;  
+     }
+     #ca_footer_1 {
+    background-color: #2d4690;
+}
+#ca_footer_1 h6{
+    color:#fff;
+    text-align: center;
+}
+#ca_footer_1{
+        padding:15px;
+}
+#ca_footer_2{
+    padding:6px;
+}
+#ca_footer_1 p{
+    color: #fff;
+    margin: 0px;
+    font-size: 13px;
+}
+#ca_footer_2 {
+    background-color: rgba(37, 36, 36, 0.78);
+}
+#ca_footer_2  p{
+    color:#fff;
+    text-align: center;
+    margin:0px;
+    font-size:13px;
+}
+.about_csi {
+    border: 1px solid rgba(0,0,0,.125);
+    margin: 12px 0px 15px 0px;
+    padding: 15px;
+box-shadow:3px 2px 5px 2px #c3c3c3;
+}
+#ca_footer {
+    position: relative;
+    bottom: -82px;
+    width: 100%;
+}
+.profile_carousel{
+    padding:0px 0px 0px 15px;
+}
+.profile_carousel .carousel-caption{
+    position:unset;
+    padding-top:0px;
+}
+.profile_carousel .carousel-indicators{
+bottom:-22px;
+}
+.profile_carousel .carousel-indicators li{
+    background-color: #2d4690;
+    border-radius: 50px !important;
+    border: 1px solid transparent;
+    height: 8px;
+    width: 8px;
+}
+.what_new_cols{
+    padding:0px;
+}
+#example1 li{
+font-size: 14px;
+    line-height: 1.7;
+    color: #3998FF;
+}
+.Csi_readmore{
+     margin: 0px;
+    float: right;
+    font-size: 15px;
+    color: #2d4383;   
+}
+.Csi_readmore a{
+      color: #2d4383;     
+}
+.csi_protfolio_cards{
+    margin:10px 0px 0px 10px;
+    padding: 0px 0px 13px 0px;
+}
+.csi_member_login{
+     padding: 10px 0px 17px 0px;   
+}
+ @media(max-width:768px){
+     #mainLogo{
+         width:100%;
+     }
+     .ClickHerCentertxt{
+         width:100%;
+     }
+.header-part{
+      padding: 15px 15px 0px 15px;  
+}
+.helplineNum {
+    text-align: center;
+}
+.about_csi{
+    margin:10px;
+}
+.csi_protfolio_cards {
+    margin: 10px 0px 10px 0px;
+}
+ }
