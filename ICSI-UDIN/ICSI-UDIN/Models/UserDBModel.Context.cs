@@ -12,11 +12,13 @@ namespace ICSI_UDIN.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
-    public partial class UserDBEntities : DbContext
+    public partial class ICSI_DBModleEntities : DbContext
     {
-        public UserDBEntities()
-            : base("name=UserDBEntities")
+        public ICSI_DBModleEntities()
+            : base("name=ICSI_DBModleEntities")
         {
         }
     
@@ -25,6 +27,28 @@ namespace ICSI_UDIN.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<tblUDIN> tblUDINs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
+    
+        public virtual ObjectResult<RP_UDINVerification_Result> RP_UDINVerification(string name, string mobileNumber, string emailID, string membershipNumber)
+        {
+            var nameParameter = name != null ?
+                new ObjectParameter("Name", name) :
+                new ObjectParameter("Name", typeof(string));
+    
+            var mobileNumberParameter = mobileNumber != null ?
+                new ObjectParameter("MobileNumber", mobileNumber) :
+                new ObjectParameter("MobileNumber", typeof(string));
+    
+            var emailIDParameter = emailID != null ?
+                new ObjectParameter("EmailID", emailID) :
+                new ObjectParameter("EmailID", typeof(string));
+    
+            var membershipNumberParameter = membershipNumber != null ?
+                new ObjectParameter("MembershipNumber", membershipNumber) :
+                new ObjectParameter("MembershipNumber", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_UDINVerification_Result>("RP_UDINVerification", nameParameter, mobileNumberParameter, emailIDParameter, membershipNumberParameter);
+        }
     }
 }

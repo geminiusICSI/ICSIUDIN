@@ -21,5 +21,6 @@ namespace ICSI_UDIN.Repository
         void DeleteUser(int UserId); //D
 
         void Save();
+        tblUDIN GetUDINVerification(tblUDIN obj);
     }
 }

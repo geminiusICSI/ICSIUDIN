@@ -1,0 +1,75 @@
+﻿
+@{
+    ViewBag.Title = "SearchUDIN";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="loginformblock">
+    <div class="card loginformRegistrn">
+        <h3 class="formgheader">Search UDIN Documents</h3>
+        <form>
+            <div class="form-group siderbarlgnform">
+                <input type="text" class="form-control formblock" id="email"
+                       value="Unique Document Identification Number (UDIN)" name="email">
+            </div>
+            <div class="form-group checkForm">
+                <label class="checkbox-inline">
+                    <h5 class="documentType">Document Type</h5>
+                </label>
+                <label class="containerCheckbox">
+                    Certificates
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="containerCheckbox">
+                    Gst and Tax Audit</span>
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="containerCheckbox">
+                    Other Attest Functions
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="form-group siderbarlgnform">
+                <input type="text" class="form-control formblock" id="email"
+                       value="Date of signing of document (DD/MM/YY)" name="email">
+            </div>
+
+            <div class="form-group siderbarlgnform">
+                <select class="dropDown">
+                    <option value="volvo">Select Document Status</option>
+                    <option value="saab">1</option>
+                    <option value="mercedes">2</option>
+                    <option value="audi">3</option>
+                </select>
+                <!-- <p class="Formtype">Document Status <i class="fa fa-sort-desc" aria-hidden="true"></i></p>
+                <input type="text" class="form-control formblock" id="pwd" name="pwd"> -->
+            </div>
+            <div class="form-group checkForm">
+                <label class="checkbox-inline">
+                    <h5 class="documentType">Search Type</h5>
+                </label>
+                <label class="containerCheckbox">
+                    Match All
+                    <input type="checkbox" checked="checked">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="containerCheckbox">
+                    Match any</span>
+                    <input type="checkbox">
+                    <span class="checkmark"></span>
+                </label>
+
+            </div>
+
+            <div class="SendOtpBtn">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

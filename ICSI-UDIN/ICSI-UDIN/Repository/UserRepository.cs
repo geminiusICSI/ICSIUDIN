@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using ICSI_UDIN.Models;
@@ -13,9 +14,9 @@ namespace ICSI_UDIN.Repository
 
     {
 
-        private UserDBEntities DBcontext;
+        private ICSI_DBModleEntities DBcontext;
 
-        public UserRepository(UserDBEntities objusercontext)
+        public UserRepository(ICSI_DBModleEntities objusercontext)
         {
             this.DBcontext = objusercontext;
         }
@@ -66,6 +67,39 @@ namespace ICSI_UDIN.Repository
         public void Save()
         {
             DBcontext.SaveChanges();
+        }
+        public tblUDIN GetUDINVerification(tblUDIN obj)
+        {
+            var Name = new SqlParameter
+            {
+                ParameterName = "Name",
+                Value = obj.Fname
+            };
+
+            var Mobileno = new SqlParameter
+            {
+                ParameterName = "MobileNumber",
+                Value = obj.MobileNumber
+            };
+            var email = new SqlParameter
+            {
+                ParameterName = "EmailID",
+                Value = obj.EmailId
+            };
+            var udin = new SqlParameter
+            {
+                ParameterName = "MembershipNumber",
+                Value = obj.MembershipNumber
+            };
+            
+            var uddin = DBcontext.tblUDINs.SqlQuery(
+            "exec RP_UDINVerification @Name, @MobileNumber, @EmailID, @MembershipNumber ", Name, Mobileno,email,udin).ToList<tblUDIN>();
+
+
+       
+
+
+            return uddin.SingleOrDefault(x=>x.ID==1) ;
         }
 
     }

@@ -16,6 +16,7 @@ namespace ICSI_UDIN.Controllers
 
             return View();
         }
+        
         [HttpPost]
         public ActionResult GenerateAlphaNumericOTP()
         {
@@ -42,6 +43,13 @@ namespace ICSI_UDIN.Controllers
         [HttpGet]
         public ActionResult ForgotPassword()
         {
+            return View();
+        }
+        // GET: UDIN
+
+        public ActionResult UDINVerification()
+        {
+
             return View();
         }
 

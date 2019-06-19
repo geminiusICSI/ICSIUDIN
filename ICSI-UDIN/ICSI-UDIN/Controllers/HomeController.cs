@@ -14,7 +14,7 @@ namespace ICSI_UDIN.Controllers
         private IUserRepository _userRepository;
         public HomeController()
         {
-            this._userRepository = new UserRepository(new UserDBEntities());
+            this._userRepository = new UserRepository(new ICSI_DBModleEntities());
         }
 
         [HttpGet]
@@ -129,6 +129,68 @@ namespace ICSI_UDIN.Controllers
         {
             return View();
         }
+        // GET: UDIN
+        [HttpGet]
+        public ActionResult UDINVerification()
+        {
+
+            return View();
+        }
+
+        public ActionResult GenerateCaptcha(int? New)
+        {
+            string str = Convert.ToString(Session["ID"]);
+
+            UDIN_Captcha UdinCph = new UDIN_Captcha();
+            byte[] imageByteData = UdinCph.CreateCaptchaImage(New);
+            return File(imageByteData, "~/images/ImgCaptcha");
+
+        }
+
+        [HttpPost]
+        public ActionResult UDINVerification(tblUDIN obj)
+        {
+            if (!string.IsNullOrEmpty(Convert.ToString(Session["UDINCaptchaCode"])) && obj.Lname == Convert.ToString(Session["UdinCaptchaCode"]))
+            {
+               var result= _userRepository.GetUDINVerification(obj);
+             
+                    return RedirectToAction("UDINDocumentDetails");
+                
+            }
+            return View();
+
+
+        }
+        [HttpGet]
+        public ActionResult UDINDocumentDetails()
+        {
+            return View();
+        }
+
+        public ActionResult MembershipRegistation()
+        {
+            return View();
+        }
+
+
+        public ActionResult SearchUDIN()
+        {
+            return View();
+        }
+
+
+        public ActionResult ForgetPassword()
+        {
+            return View();
+        }
+
+
+        public ActionResult HelpDeskFacilty()
+        {
+            return View();
+        }
+
+
 
     }
 }

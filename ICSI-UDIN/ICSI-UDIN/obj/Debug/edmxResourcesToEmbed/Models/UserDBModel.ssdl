@@ -1,5 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ICSI_StimulateModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="tblUDIN">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Fname" Type="varchar" MaxLength="20" />
+    <Property Name="Mname" Type="varchar" MaxLength="20" />
+    <Property Name="Lname" Type="varchar" MaxLength="20" />
+    <Property Name="MembershipNumber" Type="bigint" Nullable="false" />
+    <Property Name="DOB" Type="date" />
+    <Property Name="YearOfEnrollment" Type="date" />
+    <Property Name="MobileNumber" Type="varchar" MaxLength="10" />
+    <Property Name="EmailId" Type="varchar" MaxLength="50" />
+    <Property Name="UserName" Type="varbinary" MaxLength="20" />
+    <Property Name="Password" Type="varbinary" MaxLength="20" />
+    <Property Name="CreatedBy" Type="varchar" MaxLength="20" />
+    <Property Name="CreatedDate" Type="datetime" />
+    <Property Name="ModifyDate" Type="datetime" />
+    <Property Name="DocumentTypeID" Type="int" />
+    <Property Name="DocumentDetails" Type="varbinary" MaxLength="200" />
+    <Property Name="IsValid" Type="char" MaxLength="1" />
+  </EntityType>
   <EntityType Name="tblUser">
     <Key>
       <PropertyRef Name="ID" />
@@ -8,7 +30,14 @@
     <Property Name="UserName" Type="varchar" MaxLength="50" />
     <Property Name="Password" Type="varchar" MaxLength="50" />
   </EntityType>
+  <Function Name="RP_UDINVerification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="Name" Type="varchar" Mode="In" />
+    <Parameter Name="MobileNumber" Type="varchar" Mode="In" />
+    <Parameter Name="EmailID" Type="varchar" Mode="In" />
+    <Parameter Name="MembershipNumber" Type="varchar" Mode="In" />
+  </Function>
   <EntityContainer Name="ICSI_StimulateModelStoreContainer">
+    <EntitySet Name="tblUDIN" EntityType="Self.tblUDIN" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="tblUser" EntityType="Self.tblUser" Schema="dbo" store:Type="Tables" />
   </EntityContainer>
 </Schema>

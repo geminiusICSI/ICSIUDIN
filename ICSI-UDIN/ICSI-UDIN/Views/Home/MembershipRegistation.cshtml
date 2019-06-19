@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewBag.Title = "MembershipRegistation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <div id="loginformblock">
+        <div class="card loginformRegistrn">
+            <h3 class="formgheader">FIRST TIME REGISTRATION FOR MEMBERS</h3>
+            <form>
+                <p class="RegistrnFormPara">
+                    Please fill below details to register on UDIN Portal. Credentials will
+                    sent on the Email ID and Mobile number as
+                    registered with ICAI
+                </p>
+                <div class="form-group siderbarlgnform">
+                    <input type="text" class="form-control formblock" id="email"
+                           value="Membership Number (MRN)" name="email">
+                </div>
+                <div class="form-group siderbarlgnform">
+                    <input type="text" class="form-control formblock" id="pwd" value="Date of Birth (DD/MM/YY)" name="pwd">
+                </div>
+                <div class="form-group siderbarlgnform">
+                    <input type="text" class="form-control formblock" id="pwd" value="Year of Enrolment" name="pwd">
+                </div>
+                <div class="SendOtpBtn">
+                    <button type="submit">Sent OTP</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

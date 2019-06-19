@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\sjannapureddy\source\repos\ICSI-UDIN\ICSI-UDIN\Models\UserDBModel.edmx'. 
+﻿// T4 code generation is enabled for model 'E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\Models\UserDBModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.
