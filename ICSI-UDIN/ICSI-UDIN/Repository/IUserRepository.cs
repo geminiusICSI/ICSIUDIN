@@ -14,13 +14,18 @@ namespace ICSI_UDIN.Repository
 
         tblUser GetUserByID(int UserId); // R
 
-        bool CheckLogin(string UserName, string Password);
+        bool CheckLogin(tblUser objuser);
 
         void UpdateUser(tblUser User); //U
 
         void DeleteUser(int UserId); //D
 
         void Save();
-        tblUDIN GetUDINVerification(tblUDIN obj);
+
+        RP_UDINVerification_Result GetUDINVerification(RP_UDINVerification_Result obj);
+
+        void InserttblUDINUser(tblUDIN User);
+
+        void UDINGeneration(string MembershipNo);
     }
 }

@@ -158,9 +158,7 @@ E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CopyComplete
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.dll
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.pdb
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csprojAssemblyReference.cache
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.xml
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Newtonsoft.Json.xml
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CoreCompileInputs.cache
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.dll.config
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.pdb
@@ -211,7 +209,6 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\vbc.rsp
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\VBCSCompiler.exe
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\VBCSCompiler.exe.config
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Antlr3.Runtime.dll
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.SqlServer.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Microsoft.Web.Infrastructure.dll
@@ -224,6 +221,7 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Deployment.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Razor.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\WebGrease.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.SqlServer.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Helpers.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Mvc.xml
@@ -232,9 +230,10 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Razor.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Deployment.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Razor.xml
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Newtonsoft.Json.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Antlr3.Runtime.pdb
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CoreCompileInputs.cache
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CopyComplete
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.pdb
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csprojAssemblyReference.cache

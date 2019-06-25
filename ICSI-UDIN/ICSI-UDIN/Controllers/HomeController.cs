@@ -24,23 +24,29 @@ namespace ICSI_UDIN.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
-        public ActionResult Index(string username ,string password)
+        public ActionResult Index(tblUser obj)
         {
             bool check = false;
             string message = string.Empty;
-            check = _userRepository.CheckLogin(username, username);
-            if(check ==true)
+            if (ModelState.IsValid)
             {
+                check = _userRepository.CheckLogin(obj);
+                if (check == false)
+                {
+                    message = "Invalid login credentials";
+                    ViewBag.Message = message;
+                }
+                else
+                {
+                    return RedirectToAction("MemberRegistration");
+                }
             }
             else
             {
-                message = "Username and/or password is incorrect.";
+                ModelState.AddModelError("", " Wrong User/Password.");
             }
-           ViewBag.Message = message;
-            return View(message);
+            return View();
         }
-
         public ActionResult Details(int UserId)
 
         {
@@ -52,13 +58,13 @@ namespace ICSI_UDIN.Controllers
         }
         [HttpPost]
 
-        public ActionResult Create(FormCollection collection, tblUser  objuser)
+        public ActionResult Create(FormCollection collection, tblUser objuser)
 
         {
             try
             {
                 var User = new tblUser();
-                User.ID = 0;
+                User.UserId = 0;
                 User.UserName = objuser.UserName;
                 User.Password = objuser.Password;
                 _userRepository.InsertUser(User); // Passing data to InsertEmployee of UserRepository
@@ -67,8 +73,8 @@ namespace ICSI_UDIN.Controllers
 
             }
             catch
-             {
-              return View();
+            {
+                return View();
 
             }
 
@@ -148,14 +154,14 @@ namespace ICSI_UDIN.Controllers
         }
 
         [HttpPost]
-        public ActionResult UDINVerification(tblUDIN obj)
+        public ActionResult UDINVerification(RP_UDINVerification_Result obj)
         {
-            if (!string.IsNullOrEmpty(Convert.ToString(Session["UDINCaptchaCode"])) && obj.Lname == Convert.ToString(Session["UdinCaptchaCode"]))
+            if (!string.IsNullOrEmpty(Convert.ToString(Session["UDINCaptchaCode"])) && obj.CaptchaCode == Convert.ToString(Session["UdinCaptchaCode"]))
             {
-               var result= _userRepository.GetUDINVerification(obj);
-             
-                    return RedirectToAction("UDINDocumentDetails");
-                
+                var result = _userRepository.GetUDINVerification(obj);
+
+                return RedirectToAction("UDINDocumentDetails");
+
             }
             return View();
 
@@ -169,6 +175,73 @@ namespace ICSI_UDIN.Controllers
 
         public ActionResult MembershipRegistation()
         {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult MembershipRegistation(MemberRegistration objMemberRegistration, string premember)
+        {
+            if (ModelState.IsValid)
+            {
+                string prememberval = string.Empty;
+                prememberval = premember == "1" ? "A" : "F";
+
+                ICSI_SoapService.Service obj = new ICSI_SoapService.Service();
+                var soapData = obj.GetMemberShipData(prememberval, objMemberRegistration.MRN);
+                int CertificateofPracticalNumber = Convert.ToInt32(soapData.CertificateofPracticalNumber);
+                if (CertificateofPracticalNumber > 0)
+                {
+                    string MembershipNo = prememberval + soapData.MembershipNo;
+                    string DateOfBirth = soapData.DateofBirth;
+                    string FirstName = soapData.FirstName;
+                    string MiddleName = soapData.MiddleName;
+                    string LastName = soapData.LastName;
+                    string PreMembNo = soapData.premembno;
+                    string BarredMember = soapData.BarredMember;
+                    string BarredDate = soapData.BarredDate;
+                    string EnrollDate = soapData.EnrollDate;
+                    string CPDate = soapData.CPDate;
+                    string Name = soapData.Name;
+                    string EmailId = soapData.EmailID;
+                    string MemberStatus = soapData.MemberStatus;
+                    string Msg = soapData.MSg;
+
+                    #region Insert in tblUser
+                    tblUser objtblUser = new tblUser();
+                    objtblUser.UserName = MembershipNo;
+                    objtblUser.Password = null;
+                    objtblUser.FirstName = FirstName;
+                    objtblUser.MiddleName = MiddleName;
+                    objtblUser.LastName = LastName;
+                    objtblUser.DOB = Convert.ToDateTime(DateOfBirth);
+                    objtblUser.MobileNumber = null;
+                    objtblUser.EmailId = EmailId;
+                    objtblUser.CreatedDate = DateTime.Now;
+                    _userRepository.InsertUser(objtblUser);
+                    #endregion
+
+                    #region Insert in tblUDIN
+                    tblUDIN objtblUDIN = new tblUDIN();
+                    objtblUDIN.MembershipNumber = MembershipNo;
+                    objtblUDIN.YearOfEnrollment = null;
+                    objtblUDIN.CreatedDate = DateTime.Now;
+                    objtblUDIN.CreatedBy = null;
+                    objtblUDIN.ModifyDate = null;
+                    objtblUDIN.UDINUniqueCode = null;
+                    objtblUDIN.IsValid = "1";
+                    objtblUDIN.DocumentTypeId = 0;
+                    objtblUDIN.DocumentDescription = null;
+                    objtblUDIN.StatusId = 0;
+                    objtblUDIN.UserId = objtblUser.UserId;
+                    _userRepository.InserttblUDINUser(objtblUDIN);
+                    #endregion
+
+                    TempData["UserId"] = objtblUser.UserId;
+                    return RedirectToAction("CreatePassword");
+                }
+                else
+                    ViewBag.ErrorMsg = "Certificate of Practical should be greater than zero.";
+            }
             return View();
         }
 
@@ -190,7 +263,23 @@ namespace ICSI_UDIN.Controllers
             return View();
         }
 
+        public ActionResult CreatePassword()
+        {
+            _userRepository.UDINGeneration("F5922");
 
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreatePassword(CreatePassword objCreatePassword)
+        {
+            if (ModelState.IsValid)
+            {
+                int userId = Convert.ToInt32(TempData["UserId"]);
+
+            }
+            return View(objCreatePassword);
+        }
 
     }
 }

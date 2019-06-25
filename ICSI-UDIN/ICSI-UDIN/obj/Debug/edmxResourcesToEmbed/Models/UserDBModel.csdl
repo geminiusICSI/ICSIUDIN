@@ -1,43 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Schema Namespace="ICSI_StimulateModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-  <EntityType Name="tblUDIN">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Fname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="Mname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="Lname" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="MembershipNumber" Type="Int64" Nullable="false" />
-    <Property Name="DOB" Type="DateTime" Precision="0" />
-    <Property Name="YearOfEnrollment" Type="DateTime" Precision="0" />
-    <Property Name="MobileNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-    <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="UserName" Type="Binary" MaxLength="20" FixedLength="false" />
-    <Property Name="Password" Type="Binary" MaxLength="20" FixedLength="false" />
-    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
-    <Property Name="DocumentTypeID" Type="Int32" />
-    <Property Name="DocumentDetails" Type="Binary" MaxLength="200" FixedLength="false" />
-    <Property Name="IsValid" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-  </EntityType>
-  <EntityType Name="tblUser">
-    <Key>
-      <PropertyRef Name="ID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-  </EntityType>
   <EntityContainer Name="ICSI_DBModleEntities" annotation:LazyLoadingEnabled="true">
-    <EntitySet Name="tblUDINs" EntityType="Self.tblUDIN" />
-    <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
     <FunctionImport Name="RP_UDINVerification" ReturnType="Collection(ICSI_StimulateModel.RP_UDINVerification_Result)">
-      <Parameter Name="Name" Mode="In" Type="String" />
+      <Parameter Name="FName" Mode="In" Type="String" />
       <Parameter Name="MobileNumber" Mode="In" Type="String" />
-      <Parameter Name="EmailID" Mode="In" Type="String" />
+      <Parameter Name="EmailId" Mode="In" Type="String" />
       <Parameter Name="MembershipNumber" Mode="In" Type="String" />
+    </FunctionImport>
+    <EntitySet Name="tblUDINs" EntityType="ICSI_StimulateModel.tblUDIN" />
+    <EntitySet Name="tblUsers" EntityType="ICSI_StimulateModel.tblUser" />
+    <FunctionImport Name="RP_GetUDINList" ReturnType="Collection(ICSI_StimulateModel.RP_GetUDINList_Result)">
+      <Parameter Name="UDINNumber" Mode="In" Type="String" />
     </FunctionImport>
   </EntityContainer>
   <ComplexType Name="RP_UDINVerification_Result">
@@ -45,5 +18,46 @@
     <Property Type="String" Name="MobileNumber" Nullable="true" MaxLength="10" />
     <Property Type="String" Name="EmailId" Nullable="true" MaxLength="50" />
     <Property Type="Int64" Name="MembershipNumber" Nullable="false" />
+  </ComplexType>
+  <EntityType Name="tblUDIN">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MembershipNumber" Type="String" Nullable="false" MaxLength="14" FixedLength="false" Unicode="false" />
+    <Property Name="YearOfEnrollment" Type="Int32" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+    <Property Name="CreatedBy" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="ModifyDate" Type="DateTime" Precision="3" />
+    <Property Name="UDINUniqueCode" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="IsValid" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+    <Property Name="DocumentTypeId" Type="Int32" />
+    <Property Name="DocumentDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="StatusId" Type="Int32" />
+    <Property Name="UserId" Type="Int32" />
+  </EntityType>
+  <EntityType Name="tblUser">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DOB" Type="DateTime" Precision="0" />
+    <Property Name="MobileNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+    <Property Name="EmailId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+    <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+  </EntityType>
+  <ComplexType Name="RP_GetUDINList_Result">
+    <Property Type="String" Name="MembershipNumber" Nullable="false" MaxLength="14" />
+    <Property Type="String" Name="MRN" Nullable="true" MaxLength="34" />
+    <Property Type="String" Name="DocumentType" Nullable="true" MaxLength="20" />
+    <Property Type="Binary" Name="DocumentDescription" Nullable="true" MaxLength="200" />
+    <Property Type="DateTime" Name="DateOfDocument" Nullable="true" Precision="23" />
+    <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+    <Property Type="Binary" Name="ParticularDesc" Nullable="true" MaxLength="200" />
   </ComplexType>
 </Schema>

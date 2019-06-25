@@ -10,21 +10,15 @@ namespace ICSI_UDIN.Models
     {
 
 
-        [Required]
+        [Required(ErrorMessage = "Membership Number must be required")]
         [Display(Name = "Membership Number :")]
-        [RegularExpression(@"^([0-9]{6})$", ErrorMessage = "Membership Number must be numeric")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Membership Number must be numeric")]
         public int MRN { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Date of Birth must be required")]
         [Display(Name = "Date Of Birth")]
-        [DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime? DOB { get; set; }
-
-
-        [Required]
-        [Display(Name = "Year Of Enrolment :")]
-        [RegularExpression(@"^([0-9]{4})$", ErrorMessage = " Year Of Enrolment  must be numeric")]
-        public int YearOfEnrolment { get; set; }
+        //[DataType(DataType.Date), DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        public string DOB { get; set; }
 
     } 
 

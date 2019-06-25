@@ -13,9 +13,10 @@ namespace ICSI_UDIN.Models
     
     public partial class RP_UDINVerification_Result
     {
-        public string Name { get; set; }
-        public string MobileNumber { get; set; }
+        public string FName { get; set; }
         public string EmailId { get; set; }
-        public long MembershipNumber { get; set; }
+        public string MobileNumber { get; set; }
+        public string MembershipNumber { get; set; }
+        public string CaptchaCode { get; set; }
     }
 }

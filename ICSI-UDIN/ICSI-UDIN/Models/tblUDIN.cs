@@ -14,23 +14,17 @@ namespace ICSI_UDIN.Models
     
     public partial class tblUDIN
     {
-
         public int ID { get; set; }
-        public string Fname { get; set; }
-        public string Mname { get; set; }
-        public string Lname { get; set; }
-        public long MembershipNumber { get; set; }
-        public Nullable<System.DateTime> DOB { get; set; }
-        public Nullable<System.DateTime> YearOfEnrollment { get; set; }
-        public string MobileNumber { get; set; }
-        public string EmailId { get; set; }
-        public byte[] UserName { get; set; }
-        public byte[] Password { get; set; }
-        public string CreatedBy { get; set; }
+        public string MembershipNumber { get; set; }
+        public Nullable<int> YearOfEnrollment { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string CreatedBy { get; set; }
         public Nullable<System.DateTime> ModifyDate { get; set; }
-        public Nullable<int> DocumentTypeID { get; set; }
-        public byte[] DocumentDetails { get; set; }
+        public string UDINUniqueCode { get; set; }
         public string IsValid { get; set; }
+        public Nullable<int> DocumentTypeId { get; set; }
+        public string DocumentDescription { get; set; }
+        public Nullable<int> StatusId { get; set; }
+        public Nullable<int> UserId { get; set; }
     }
 }

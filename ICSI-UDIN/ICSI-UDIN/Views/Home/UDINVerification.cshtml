@@ -1,4 +1,4 @@
-﻿@model ICSI_UDIN.Models.tblUDIN
+﻿@model ICSI_UDIN.Models.RP_UDINVerification_Result
 
 @*@{
         ViewBag.Title = "UDIN Verification";
@@ -27,27 +27,11 @@
 
             @Html.Label("Name", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.Fname, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.Fname, "", new { @class = "text-danger" })
+                @Html.EditorFor(model => model.FName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.FName, "", new { @class = "text-danger" })
             </div>
         </div>
-
-        @*<div class="form-group">
-                @Html.Label("Enter Mobile No", htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Mname, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Mname, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.Label("Enter E-mail", htmlAttributes: new { @class = "control-label col-md-2" })
-                @Html.LabelFor(model => model.Lname, htmlAttributes: new { @class = "control-label col-md-2" })
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Lname, new { htmlAttributes = new { @class = "form-control" } })
-                    @Html.ValidationMessageFor(model => model.Lname, "", new { @class = "text-danger" })
-                </div>
-            </div>*@
+            
 
         <div class="form-group">
             @Html.Label("Enter Mobile No", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -78,7 +62,7 @@
             @Html.Label("Captacha", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 
-                @Html.TextBoxFor(model=>model.Lname)
+                @Html.TextBoxFor(model=>model.CaptchaCode)
                 @Html.ValidationMessage("Invalid", "", new { @class = "text-danger" })
                 <img id="imgUDINCaptcha" src="@Url.Action("GenerateCaptcha", "Home", new { New = 1 })" class="captcha"> &nbsp;&nbsp;
                 <a href="javascript:UDINCaptchaRefresh('imgUDINCaptcha')" class="refresh"><i class="fa fa-refresh"></i>Refresh</a>
@@ -88,10 +72,7 @@
         @*<div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 @ViewBag.anotp
-                <input id="Submit1" type="submit" value="Generate OTP" class="btn btn-default" />
-
-
-
+                <input id="Submit1" type="submit" value="Generate OTP" class="btn btn-default" />                       
             </div>
         </div>*@
         <div>
