@@ -24,5 +24,6 @@ namespace ICSI_UDIN.Models
         public string MobileNumber { get; set; }
         public string EmailId { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string UType { get; set; }
     }
 }

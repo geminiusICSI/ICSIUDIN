@@ -158,7 +158,6 @@ E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CopyComplete
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.dll
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.pdb
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csprojAssemblyReference.cache
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.dll.config
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.pdb
@@ -209,10 +208,17 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\vbc.rsp
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\VBCSCompiler.exe
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\VBCSCompiler.exe.config
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Antlr3.Runtime.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ClosedXML.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\DocumentFormat.OpenXml.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.SqlServer.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ExcelNumberFormat.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\FastMember.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Microsoft.Web.Infrastructure.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Newtonsoft.Json.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.IO.FileSystem.Primitives.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.IO.Packaging.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Helpers.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Mvc.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Optimization.dll
@@ -221,8 +227,12 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Deployment.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Razor.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\WebGrease.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ClosedXML.pdb
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ClosedXML.xml
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\DocumentFormat.OpenXml.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\EntityFramework.SqlServer.xml
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ExcelNumberFormat.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Helpers.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Mvc.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.Optimization.xml
@@ -237,3 +247,4 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CoreCompile
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CopyComplete
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.pdb
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csprojAssemblyReference.cache

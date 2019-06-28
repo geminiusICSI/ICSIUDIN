@@ -32,39 +32,65 @@ namespace ICSI_UDIN.Models
         public virtual DbSet<tblDocParticular> tblDocParticulars { get; set; }
         public virtual DbSet<tblDocumentType> tblDocumentTypes { get; set; }
         public virtual DbSet<tblErrorLog> tblErrorLogs { get; set; }
+        public virtual DbSet<tblGenerateUDIN> tblGenerateUDINs { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
         public virtual DbSet<tblUDIN> tblUDINs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblUserActivity> tblUserActivities { get; set; }
     
-        public virtual ObjectResult<RP_GetUDINList_Result> RP_GetUDINList(string uDINNumber)
+        public virtual int RevokeUDIN(string uDINNumber)
         {
             var uDINNumberParameter = uDINNumber != null ?
                 new ObjectParameter("UDINNumber", uDINNumber) :
                 new ObjectParameter("UDINNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_GetUDINList_Result>("RP_GetUDINList", uDINNumberParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RevokeUDIN", uDINNumberParameter);
         }
     
-        public virtual ObjectResult<RP_UDINVerification_Result> RP_UDINVerification(string fName, string mobileNumber, string emailId, string membershipNumber)
+        public virtual ObjectResult<RP_GetUDINList_Result> RP_GetUDINList(Nullable<int> userId, string uDINNumber, string financialYear, string fromDate, string toDate)
+        {
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var uDINNumberParameter = uDINNumber != null ?
+                new ObjectParameter("UDINNumber", uDINNumber) :
+                new ObjectParameter("UDINNumber", typeof(string));
+    
+            var financialYearParameter = financialYear != null ?
+                new ObjectParameter("FinancialYear", financialYear) :
+                new ObjectParameter("FinancialYear", typeof(string));
+    
+            var fromDateParameter = fromDate != null ?
+                new ObjectParameter("FromDate", fromDate) :
+                new ObjectParameter("FromDate", typeof(string));
+    
+            var toDateParameter = toDate != null ?
+                new ObjectParameter("ToDate", toDate) :
+                new ObjectParameter("ToDate", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_GetUDINList_Result>("RP_GetUDINList", userIdParameter, uDINNumberParameter, financialYearParameter, fromDateParameter, toDateParameter);
+        }
+    
+        public virtual ObjectResult<RP_UDINVerification_Result> RP_UDINVerification(string fName, string emailId, string mobileNumber, string membershipNumber)
         {
             var fNameParameter = fName != null ?
                 new ObjectParameter("FName", fName) :
                 new ObjectParameter("FName", typeof(string));
     
-            var mobileNumberParameter = mobileNumber != null ?
-                new ObjectParameter("MobileNumber", mobileNumber) :
-                new ObjectParameter("MobileNumber", typeof(string));
-    
             var emailIdParameter = emailId != null ?
                 new ObjectParameter("EmailId", emailId) :
                 new ObjectParameter("EmailId", typeof(string));
+    
+            var mobileNumberParameter = mobileNumber != null ?
+                new ObjectParameter("MobileNumber", mobileNumber) :
+                new ObjectParameter("MobileNumber", typeof(string));
     
             var membershipNumberParameter = membershipNumber != null ?
                 new ObjectParameter("MembershipNumber", membershipNumber) :
                 new ObjectParameter("MembershipNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_UDINVerification_Result>("RP_UDINVerification", fNameParameter, mobileNumberParameter, emailIdParameter, membershipNumberParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_UDINVerification_Result>("RP_UDINVerification", fNameParameter, emailIdParameter, mobileNumberParameter, membershipNumberParameter);
         }
     }
 }

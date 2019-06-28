@@ -22,10 +22,29 @@ namespace ICSI_UDIN.Repository
 
         void Save();
 
-        RP_UDINVerification_Result GetUDINVerification(RP_UDINVerification_Result obj);
+        RP_UDINVerification_Result GetUDINVerification(UDINVerification obj);
 
-        void InserttblUDINUser(tblUDIN User);
+        int InserttblUDINUser(tblUDIN User);
 
-        void UDINGeneration(string MembershipNo);
+        string UDINGeneration(string MembershipNo);
+
+        int updatetblUserById(tblUser objtblUser);
+
+        void sendMail(string MailTo, string Subject, string Body);
+
+        int InsertTblUser(tblUser User);
+
+        List<RP_GetUDINList_Result> GetUDINList(UDINSearch obj);
+
+        int RevokeUDIN(RP_GetUDINList_Result obj);
+
+        List<Certificate> CertificateList();
+
+        void InsertGenerateUDIN();
+
+        //
+        bool CheckUdn(tblUser objuser);
+
+        tblUser GetUserByUserName(string UserName);
     }
 }

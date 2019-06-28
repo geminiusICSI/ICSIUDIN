@@ -16,9 +16,10 @@ namespace ICSI_UDIN.Models
         public string MembershipNumber { get; set; }
         public string MRN { get; set; }
         public string DocumentType { get; set; }
-        public byte[] DocumentDescription { get; set; }
-        public Nullable<System.DateTime> DateOfDocument { get; set; }
+        public string DocumentDescription { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
-        public byte[] ParticularDesc { get; set; }
+        public string FinancialYear { get; set; }
+        public string ClientName { get; set; }
+        public string CIN { get; set; }
     }
 }

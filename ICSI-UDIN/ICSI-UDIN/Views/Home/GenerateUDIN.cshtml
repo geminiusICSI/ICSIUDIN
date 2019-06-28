@@ -1,0 +1,117 @@
+﻿@model ICSI_UDIN.Models.GenerateUDIN
+@{
+    ViewBag.Title = "GenerateUDIN";
+    Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+}
+
+@using (Html.BeginForm("GenerateUDIN", "Home"))
+{
+    <div class="container">
+        <div id="loginformblock">
+            <div class="card loginformRegistrn">
+                <div>
+                    <h4 class="formgheader">Generate UDIN</h4>
+                </div>
+                <label style="color:red;">@ViewBag.Message</label>
+                @*<form>*@
+                <div class="form-group siderbarlgnform">
+                    @*<input type="text" class="form-control formblock" id="email" placeholder="Membership Registration Number or MRN" name="email">*@
+                    @Html.EditorFor(model => model.MRNNumber, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Membership Registration Number or MRN", @readonly = "readonly" } })
+                    @*@Html.ValidationMessageFor(model => model.MRNNumber, "", new { @class = "text-danger" })*@
+                </div>
+                <div class="form-group siderbarlgnform">
+                    @Html.EditorFor(model => model.UDINNumber, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Membership Registration Number or MRN", @readonly = "readonly" } })
+                </div>
+                <div class="form-group siderbarlgnform">
+                    @*<input type="text" class="form-control formblock" id="pwd" placeholder="Client Name" name="pwd">*@
+                    @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Client Name" } })
+                    @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group siderbarlgnform">
+                    @*<input type="text" class="form-control formblock" id="pwd" placeholder="CIN Number" name="pwd">*@
+                    @Html.EditorFor(model => model.CINNumber, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "CIN Number" } })
+                    @Html.ValidationMessageFor(model => model.CINNumber, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group siderbarlgnform">
+                    @*<input type="text" class="form-control formblock" id="pwd" placeholder="Financial year" name="pwd">*@
+                    @Html.EditorFor(model => model.FinancialYear, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Financial year" } })
+                    @Html.ValidationMessageFor(model => model.FinancialYear, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group checkForm">
+                    <label class="checkbox-inline">
+                        <h5 class="documentType">Document Type:</h5>
+                    </label>
+                    @*<label class="containerCheckbox" onclick="checkboxclick();">
+                Certificates <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
+                <input type="checkbox" checked="checked" id="chkCertificates">
+                <span class="checkmark"></span>
+            </label>*@
+                    @*<label class="containerCheckbox">
+                Gst and Tax Audit <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>*@
+                    @*<label class="containerCheckbox" onclick="checkboxclick();">
+                Other Attest Functions<span class="icon"> <i class="fa fa-info" style="color:black;"></i></span>
+                <input type="checkbox" id="chkOther">
+                <span class="checkmark"></span>
+            </label>*@
+                    @Html.RadioButton("rdbgroup", "1", isChecked: true)&nbsp;@Html.Label("Certificates")
+                    @Html.RadioButton("rdbgroup", "2", isChecked: false)&nbsp;@Html.Label("Other Attest Functions")
+                </div>
+                <div class="form-group siderbarlgnform" id="dvCertificate">
+                    @*<select class="dropDown">
+                <option value="volvo">Select Type of Certificate</option>
+                <option value="saab">1</option>
+                <option value="mercedes">2</option>
+                <option value="audi">3</option>
+            </select>*@
+                    @Html.DropDownListFor(model => model.CertificateId, new SelectList(Model.lstCertificates, "CertificateId", "CertificateName"), new { @class = "dropDown" })
+                    <!-- <p class="Formtype">Type of Certificate <i class="fa fa-sort-desc" aria-hidden="true"></i></p>
+        <input type="text" class="form-control formblock" id="pwd"  name="pwd"> -->
+                </div>
+                <div class="form-group siderbarlgnform">
+                    @*<input type="text" class="form-control formblock" id="pwd" placeholder="Date of signing of document(DD/MM/YY)" name="pwd">*@
+                    @Html.EditorFor(model => model.DateOfSigningDoc, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Date of signing of document(DD/MM/YY)" } })
+                    @Html.ValidationMessageFor(model => model.DateOfSigningDoc, "", new { @class = "text-danger" })
+                </div>
+                <div class="form-group siderbarlgnform" id="dvDescription">
+                    @*<input type="text" class="form-control formblock" id="pwd" placeholder="Document Description(Do not disclose client details)" name="pwd">*@
+                    @Html.EditorFor(model => model.DocDescription, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Document Description(Do not disclose client details)" } })
+                    @*@Html.ValidationMessageFor(model => model.DocDescription, "", new { @class = "text-danger" })*@
+                </div>
+                <div class="submitbtn">
+                    <button type="submit">Sent Mail</button>
+                </div>
+
+                @*</form>*@
+
+            </div>
+        </div>
+    </div>
+
+}
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+    checkDocumentType();
+    function checkDocumentType() {
+        var radioValue = $("input[name='rdbgroup']:checked").val();
+        if (radioValue == 2) {
+            $('#dvCertificate').fadeOut();
+            $('#dvDescription').fadeIn();
+            //alert("Your are a - " + radioValue);
+        }
+        else {
+            $('#dvDescription').fadeOut();
+            $('#dvCertificate').fadeIn();
+        }
+    }
+
+    $(document).ready(function () {
+        $("input[type='radio']").click(function () {
+            checkDocumentType();
+        });
+    });
+</script>
+

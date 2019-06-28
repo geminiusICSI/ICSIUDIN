@@ -49,3 +49,15 @@
         </div>
     </div>
 }
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
+   if (@ViewBag.ErrorMsg== 1) {
+       myFunction();
+   }
+   function myFunction() {
+       var url = '@ViewBag.Path'
+       alert('Your Membership No is Validated with ICSI, Please create your Password Now.');
+       window.location.href = '@ViewBag.Path';
+   }
+</script>

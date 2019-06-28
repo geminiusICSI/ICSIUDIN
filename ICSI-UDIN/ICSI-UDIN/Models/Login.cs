@@ -9,17 +9,17 @@ namespace ICSI_UDIN.Models
 {
     public class Login
     {
-        [Required(ErrorMessage = "Email Id Required")]
+        [Required(ErrorMessage = "UserName Required")]
 
-        [DisplayName("Email ID")]
+        [DisplayName("UserName")]
 
-        [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
+        // [RegularExpression(@"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$",
 
-                           ErrorMessage = "Email Format is wrong")]
+        //          ErrorMessage = "Email Format is wrong")]
 
-        [StringLength(50, ErrorMessage = "Less than 50 characters")]
+        // [StringLength(50, ErrorMessage = "Less than 50 characters")]
 
-        public string EmailId
+        public string UserName
 
         {
 
@@ -47,6 +47,6 @@ namespace ICSI_UDIN.Models
         {
             return true;
         }
-       
+
     }
 }

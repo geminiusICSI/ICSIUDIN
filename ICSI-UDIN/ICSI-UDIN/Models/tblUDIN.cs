@@ -26,5 +26,8 @@ namespace ICSI_UDIN.Models
         public string DocumentDescription { get; set; }
         public Nullable<int> StatusId { get; set; }
         public Nullable<int> UserId { get; set; }
+        public string FinancialYear { get; set; }
+        public string ClientName { get; set; }
+        public string CINNumber { get; set; }
     }
 }

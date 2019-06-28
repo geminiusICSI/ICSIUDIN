@@ -8,6 +8,7 @@ namespace ICSI_UDIN.Models
 {
     public class CreatePassword
     {
+
         [Required(ErrorMessage = "New password is required", AllowEmptyStrings = false)]
         [StringLength(255, ErrorMessage = "Must be between 6 and 255 characters", MinimumLength = 6)]
         [DataType(DataType.Password)]

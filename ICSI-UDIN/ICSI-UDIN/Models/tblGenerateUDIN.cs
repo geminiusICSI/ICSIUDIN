@@ -12,12 +12,10 @@ namespace ICSI_UDIN.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class tblDocParticular
+    public partial class tblGenerateUDIN
     {
-        public int ID { get; set; }
-        public string ParticularType { get; set; }
-        public string ParticularDesc { get; set; }
-        public Nullable<int> DocumentTypeID { get; set; }
-        public string IsValid { get; set; }
+        public int UDINGenerationId { get; set; }
+        public string FinancialYear { get; set; }
+        public int TotalCount { get; set; }
     }
 }

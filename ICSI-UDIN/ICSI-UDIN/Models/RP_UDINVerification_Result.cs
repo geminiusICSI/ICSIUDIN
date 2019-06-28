@@ -13,10 +13,15 @@ namespace ICSI_UDIN.Models
     
     public partial class RP_UDINVerification_Result
     {
-        public string FName { get; set; }
-        public string EmailId { get; set; }
-        public string MobileNumber { get; set; }
+        public Nullable<System.DateTime> CreatedDate { get; set; }
+        public string UDINUniqueCode { get; set; }
+        public string MembershipDetilas { get; set; }
+        public string DocumentType { get; set; }
+        public string TypeofCertificate { get; set; }
+        public Nullable<System.DateTime> DateofSigingDoc { get; set; }
+        public string FigParticular { get; set; }
         public string MembershipNumber { get; set; }
-        public string CaptchaCode { get; set; }
+        public string DocumentDesription { get; set; }
+        public string IsValid { get; set; }
     }
 }

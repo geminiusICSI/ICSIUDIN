@@ -1,0 +1,74 @@
+﻿
+@model ICSI_UDIN.Models.RP_GetUDINList_Result
+
+@{
+    ViewBag.Title = "CancelUDIN";
+    Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+}
+<form action="~/Home/CancelUDIN" method="post">
+    <div class="container">
+        <div id="loginformblock">
+            <div class="card loginformRegistrn">
+                <h3 class="formgheader">Revoke Document</h3>
+                
+                    <table class="table table-hover">
+                        <thead>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Status Date/Time:</td>
+                                <td>@Model.CreatedDate</td>
+                            </tr>
+                            <tr>
+                                <td>Unique Document Identification Number(UDIN):</td>
+                                <td>@Model.MembershipNumber</td>
+                            </tr>
+                            <tr>
+                                <td>Members Details:</td>
+                                <td>PRASHANT THORAT (417199)</td>
+                            </tr>
+                            <tr>
+                                <td>Document Type:</td>
+                                <td>@Model.DocumentType</td>
+                            </tr>
+                            <tr>
+                                <td>Type of Certificate:</td>
+                                <td>Section 9A of IT Act, 1961</td>
+                            </tr>
+                            <tr>
+                                <td>Date of Signing of Document:</td>
+                                <td>@Model.CreatedDate</td>
+                            </tr>
+                            <tr>
+                                <td>Figures/ Particulars:</td>
+                                <td>
+                                    <ol class="revokeDocOL">
+                                        <li>2119 - 2020 ; Assessment Year</li>
+                                        <li>00000N:FRN</li>
+                                        <li>12345: Test</li>
+                                        <li>BTPPK1111B:PAN of the Assessee</li>
+                                    </ol>
+                                </td>
+                            <tr>
+                                <td>Document Description: </td>
+                                <td>@Model.DocumentDescription</td>
+                            </tr>
+                            <tr>
+                                <td>Status:</td>
+                                <td>Active</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="SendOtpBtn">
+                        <button type="submit">Print</button>
+                    </div>
+                
+            </div>
+
+            <div class="VerifyBtn">
+                <button type="submit">VERIFY ANOTHER UDIN/EXIT</button>
+            </div>
+        </div>
+    </div>
+</form>
