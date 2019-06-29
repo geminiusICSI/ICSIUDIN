@@ -212,18 +212,24 @@ namespace ICSI_UDIN.Controllers
         [HttpPost]
         public ActionResult UDINVerification(UDINVerification obj)
         {
+
             if (!string.IsNullOrEmpty(Convert.ToString(Session["UDINCaptchaCode"])) && obj.CaptchaCode == Convert.ToString(Session["UdinCaptchaCode"]))
             {
-                var result = _userRepository.GetUDINVerification(obj);
+                ViewBag.CaptchMessage = "";
+               var result = _userRepository.GetUDINVerification(obj);
                 if (result != null)
                 {
+                    ViewBag.VNF = "";
                     TempData["Data"] = result;
                     return RedirectToAction("UDINDocumentDetails", obj);
                 }
-
+               else {
+                    ViewBag.VNF = "No Verification Found";
+                }
 
 
             }
+            ViewBag.CaptchMessage = "Captcha is not Match";
             return View();
 
 
@@ -282,7 +288,8 @@ namespace ICSI_UDIN.Controllers
                     objtblUser.FirstName = FirstName;
                     objtblUser.MiddleName = MiddleName;
                     objtblUser.LastName = LastName;
-                    objtblUser.DOB = Convert.ToDateTime(DateOfBirth);
+
+                    objtblUser.DOB = DateTime.ParseExact(DateOfBirth, "dd/MM/yyyy", System.Globalization.CultureInfo.CurrentUICulture.DateTimeFormat);
                     objtblUser.MobileNumber = null;
                     objtblUser.EmailId = EmailId;
                     objtblUser.CreatedDate = DateTime.Now;
@@ -317,7 +324,7 @@ namespace ICSI_UDIN.Controllers
 
                 }
                 else
-                    ViewBag.ErrorMsg = "Certificate of Practical should be greater than zero.";
+                    ViewBag.ErrorMsg = "Holding Certificate of Practice";
             }
             return View();
         }
@@ -429,6 +436,7 @@ namespace ICSI_UDIN.Controllers
         {
             if (ModelState.IsValid)
             {
+                ViewBag.Path = ConfigurationManager.AppSettings["Path"].ToString() + "Home/Index";
                 int userId = Convert.ToInt32(TempData["UserId"]);
                 //userId = 4;
                 tblUser objtblUser = new tblUser();
@@ -436,7 +444,11 @@ namespace ICSI_UDIN.Controllers
                 objtblUser.Password = objCreatePassword.ConfirmPassword;
                 int status = _userRepository.updatetblUserById(objtblUser);
                 if (status >= 0)
-                    return RedirectToAction("Index");
+                {
+                    ViewBag.ErrorMsg = 1;
+                }
+                
+                
             }
             return View(objCreatePassword);
         }
@@ -505,7 +517,7 @@ namespace ICSI_UDIN.Controllers
                 {
                     string EmailTo = _userRepository.GetUserByID(UserId).EmailId;
                     string Body = "Thank you for registering UDIN. Your 16 digit UDIN number is " + objGenerateUDIN.UDINNumber + ". Please keep this for future communications.";
-                    //EmailTo = "bgupta@gemini-us.com";
+                    EmailTo = "akumar@gemini-us.com";
                     if (!string.IsNullOrEmpty(EmailTo))
                         _userRepository.sendMail(EmailTo, "UDIN generation", Body);
 

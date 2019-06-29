@@ -61,11 +61,15 @@
         <div class="form-group">
             @Html.Label("Captacha", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
+
+                @Html.TextBoxFor(model => model.CaptchaCode)
                 
-                @Html.TextBoxFor(model=>model.CaptchaCode)
-                @Html.ValidationMessage("Invalid", "", new { @class = "text-danger" })
+                @Html.ValidationMessageFor(model => model.CaptchaCode, "", new { @class = "text-danger" })
                 <img id="imgUDINCaptcha" src="@Url.Action("GenerateCaptcha", "Home", new { New = 1 })" class="captcha"> &nbsp;&nbsp;
                 <a href="javascript:UDINCaptchaRefresh('imgUDINCaptcha')" class="refresh"><i class="fa fa-refresh"></i>Refresh</a>
+            </div>
+            <div>
+                <p>@ViewBag.CaptchMessage</p>
             </div>
         </div>
 
@@ -84,6 +88,12 @@
                     <div class="SendOtpBtn">
                         <button type="submit">Verify</button>
                     </div>
+                    <div>
+                        <p>
+                            @ViewBag.VNF
+                        </p>
+                    </div>
+
 }
 @*<div>
     @Html.ActionLink("Verify", "Index")

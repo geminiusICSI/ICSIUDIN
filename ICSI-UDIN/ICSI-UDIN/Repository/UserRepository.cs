@@ -174,13 +174,22 @@ namespace ICSI_UDIN.Repository
         public int InsertTblUser(tblUser User)
         {
             int status = 0;
-            var resTblUser = DBcontext.tblUsers.Where(x => x.DOB == User.DOB && x.UserName == User.UserName).FirstOrDefault();
-
-            if (resTblUser == null)
+            try
             {
-                DBcontext.tblUsers.Add(User);
-                status = DBcontext.SaveChanges();
+                var resTblUser = DBcontext.tblUsers.Where(x => x.DOB == User.DOB && x.UserName == User.UserName).FirstOrDefault();
+
+                if (resTblUser == null)
+                {
+                    DBcontext.tblUsers.Add(User);
+                    status = DBcontext.SaveChanges();
+                }
             }
+            catch(Exception ex)
+            {
+                status = 0;
+            }
+          
+            
             return status;
         }
 
