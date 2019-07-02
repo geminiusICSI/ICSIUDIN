@@ -1,7 +1,7 @@
 ﻿@model ICSI_UDIN.Models.GenerateUDIN
 @{
     ViewBag.Title = "GenerateUDIN";
-    Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+    Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
 @using (Html.BeginForm("GenerateUDIN", "Home"))
@@ -19,12 +19,12 @@
                     @Html.EditorFor(model => model.MRNNumber, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Membership Registration Number or MRN", @readonly = "readonly" } })
                     @*@Html.ValidationMessageFor(model => model.MRNNumber, "", new { @class = "text-danger" })*@
                 </div>
-                <div class="form-group siderbarlgnform">
+                <div class="form-group siderbarlgnform" style="display:none;">
                     @Html.EditorFor(model => model.UDINNumber, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Membership Registration Number or MRN", @readonly = "readonly" } })
                 </div>
                 <div class="form-group siderbarlgnform">
                     @*<input type="text" class="form-control formblock" id="pwd" placeholder="Client Name" name="pwd">*@
-                    @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Client Name" } })
+                    @Html.EditorFor(model => model.ClientName, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Name of Company/Firm/Individual" } })
                     @Html.ValidationMessageFor(model => model.ClientName, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group siderbarlgnform">
@@ -42,37 +42,52 @@
                         <h5 class="documentType">Document Type:</h5>
                     </label>
                     @*<label class="containerCheckbox" onclick="checkboxclick();">
-                Certificates <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
-                <input type="checkbox" checked="checked" id="chkCertificates">
-                <span class="checkmark"></span>
-            </label>*@
+                            Certificates <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
+                            <input type="checkbox" checked="checked" id="chkCertificates">
+                            <span class="checkmark"></span>
+                        </label>*@
                     @*<label class="containerCheckbox">
-                Gst and Tax Audit <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
-                <input type="checkbox">
-                <span class="checkmark"></span>
-            </label>*@
+                            Gst and Tax Audit <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
+                            <input type="checkbox">
+                            <span class="checkmark"></span>
+                        </label>*@
                     @*<label class="containerCheckbox" onclick="checkboxclick();">
-                Other Attest Functions<span class="icon"> <i class="fa fa-info" style="color:black;"></i></span>
-                <input type="checkbox" id="chkOther">
-                <span class="checkmark"></span>
-            </label>*@
+                            Other Attest Functions<span class="icon"> <i class="fa fa-info" style="color:black;"></i></span>
+                            <input type="checkbox" id="chkOther">
+                            <span class="checkmark"></span>
+                        </label>*@
                     @Html.RadioButton("rdbgroup", "1", isChecked: true)&nbsp;@Html.Label("Certificates")
-                    @Html.RadioButton("rdbgroup", "2", isChecked: false)&nbsp;@Html.Label("Other Attest Functions")
+                    @Html.RadioButton("rdbgroup", "2", isChecked: false)&nbsp;@Html.Label("Reports")
+                    @Html.RadioButton("rdbgroup", "3", isChecked: false)&nbsp;@Html.Label("Others")
+                </div>
+                <div class="form-group checkForm">
+                    <label class="checkbox-inline">
+                        <h5 class="documentType">UDIN initiative:</h5>
+                    </label>
+                    @Html.RadioButton("rdbUDINgroup", "1", isChecked: true)&nbsp;@Html.Label("Yes")
+                    @Html.RadioButton("rdbUDINgroup", "2", isChecked: false)&nbsp;@Html.Label("No")
+                    @Html.RadioButton("rdbUDINgroup", "3", isChecked: false)&nbsp;@Html.Label("Not Applicable")
+                    <br />
+                    <label class="checkbox-inline">
+                        <h5 class="documentType">Whether intimation to the previous incumbent has been given as per Rule 8 <a href="#">(Click here to download)</a></h5>
+                    </label>
                 </div>
                 <div class="form-group siderbarlgnform" id="dvCertificate">
                     @*<select class="dropDown">
-                <option value="volvo">Select Type of Certificate</option>
-                <option value="saab">1</option>
-                <option value="mercedes">2</option>
-                <option value="audi">3</option>
-            </select>*@
+                            <option value="volvo">Select Type of Certificate</option>
+                            <option value="saab">1</option>
+                            <option value="mercedes">2</option>
+                            <option value="audi">3</option>
+                        </select>*@
                     @Html.DropDownListFor(model => model.CertificateId, new SelectList(Model.lstCertificates, "CertificateId", "CertificateName"), new { @class = "dropDown" })
                     <!-- <p class="Formtype">Type of Certificate <i class="fa fa-sort-desc" aria-hidden="true"></i></p>
-        <input type="text" class="form-control formblock" id="pwd"  name="pwd"> -->
+                    <input type="text" class="form-control formblock" id="pwd"  name="pwd"> -->
                 </div>
                 <div class="form-group siderbarlgnform">
-                    @*<input type="text" class="form-control formblock" id="pwd" placeholder="Date of signing of document(DD/MM/YY)" name="pwd">*@
-                    @Html.EditorFor(model => model.DateOfSigningDoc, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Date of signing of document(DD/MM/YY)" } })
+                    @Html.EditorFor(model => model.DateOfSigningDoc, new { htmlAttributes = new { id = "DateOfSigningDoc", @class = "form-control formblock", placeholder = "Date of signing of document(DD/MM/YYYY)", @readonly = "true" } })
+
+                    @*<input type="date" class="form-control formblock" id="pwd" placeholder="Date of signing of document(DD/MM/YY)" name="DateOfSigningDoc">*@
+                    @*@Html.EditorFor(model => model.DateOfSigningDoc, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Date of signing of document(DD/MM/YY)" } })*@
                     @Html.ValidationMessageFor(model => model.DateOfSigningDoc, "", new { @class = "text-danger" })
                 </div>
                 <div class="form-group siderbarlgnform" id="dvDescription">
@@ -81,7 +96,7 @@
                     @*@Html.ValidationMessageFor(model => model.DocDescription, "", new { @class = "text-danger" })*@
                 </div>
                 <div class="submitbtn">
-                    <button type="submit">Sent Mail</button>
+                    <button type="submit">Generate UDIN</button>
                 </div>
 
                 @*</form>*@
@@ -93,16 +108,17 @@
 }
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
 <script type="text/javascript">
     checkDocumentType();
     function checkDocumentType() {
         var radioValue = $("input[name='rdbgroup']:checked").val();
-        if (radioValue == 2) {
+        if (radioValue == 3) {
             $('#dvCertificate').fadeOut();
             $('#dvDescription').fadeIn();
             //alert("Your are a - " + radioValue);
         }
-        else {
+        else if (radioValue == 2 || radioValue == 1) {
             $('#dvDescription').fadeOut();
             $('#dvCertificate').fadeIn();
         }
@@ -111,7 +127,34 @@
     $(document).ready(function () {
         $("input[type='radio']").click(function () {
             checkDocumentType();
+            var radioValue = $("input[name='rdbgroup']:checked").val();
+
+            $.ajax({
+                type: "POST",
+                url: "CertificateList?TypeOfDocument=" + radioValue + "",
+                dataType: "json",
+                contentType: "application/json",
+                success: function (res) {
+                    $("#CertificateId").empty();
+                    for (var i = 0; i < res.length; i++) {
+                        $("#CertificateId").append("<option value=" + res[i].CertificateId + ">" + res[i].CertificateName + "</option>");
+                    }
+                }
+            });
+        });
+    });
+
+    $(document).ready(function () {
+        $('#DateOfSigningDoc').datepicker({
+            dateFormat: "dd/mm/yy",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-60:+0",
+            minDate: '@DateTime.Now.AddDays(-7).ToString("dd/MM/yyyy").Replace("-", "/")',
+            maxDate: '@DateTime.Now.AddDays(7).ToString("dd/MM/yyyy").Replace("-", "/")'
         });
     });
 </script>
+
+
 

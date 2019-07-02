@@ -14,6 +14,12 @@ namespace ICSI_UDIN.Models
     
     public partial class tblUser
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblUser()
+        {
+            this.tblRevokeUDINs = new HashSet<tblRevokeUDIN>();
+        }
+    
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Password { get; set; }
@@ -25,5 +31,8 @@ namespace ICSI_UDIN.Models
         public string EmailId { get; set; }
         public Nullable<System.DateTime> CreatedDate { get; set; }
         public string UType { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblRevokeUDIN> tblRevokeUDINs { get; set; }
     }
 }

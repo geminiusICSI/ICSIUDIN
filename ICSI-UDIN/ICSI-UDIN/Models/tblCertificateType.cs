@@ -16,7 +16,7 @@ namespace ICSI_UDIN.Models
     {
         public int ID { get; set; }
         public string CertificateType { get; set; }
-        public byte[] CertificateDesc { get; set; }
+        public string CertificateDesc { get; set; }
         public Nullable<int> DocumentTypeID { get; set; }
         public string IsValid { get; set; }
     }

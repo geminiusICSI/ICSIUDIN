@@ -4,6 +4,17 @@
     ViewBag.Title = "UDINDocumentDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{ 
+    DateTime dt = new DateTime();
+    string status = string.Empty;
+    if(Model!=null)
+    {
+        dt = Convert.ToDateTime( Model.DateofSigingDoc);
+        status = Model.IsValid == "Y" ? "Active" : Model.IsValid == "1"?"Active":"InActive";
+
+
+    }
+}
 
 <div class="container">
     <div id="loginformblock">
@@ -16,7 +27,7 @@
                     <tbody>
                         <tr>
                             <td>Status Date/Time:</td>
-                            <td>@Model.CreatedDate</td>
+                            <td>@dt.ToString("dd-MM-yyyy")</td>
                         </tr>
                         <tr>
                             <td>Unique Document Identification Number(UDIN):</td>
@@ -36,26 +47,27 @@
                         </tr>
                         <tr>
                             <td>Date of Signing of Document:</td>
-                            <td>@Model.DateofSigingDoc</td>
+                            <td>@dt.ToString("dd-MM-yyyy")</td>
                         </tr>
-                        <tr>
+                        @*<tr>
                             <td>Figures/ Particulars:</td>
                             <td>
                                 @Model.FigParticular
                             </td>
+                            </tr>*@
                         <tr>
                             <td>Document Description: </td>
                             <td>@Model.DocumentDesription</td>
                         </tr>
                         <tr>
                             <td>Status:</td>
-                            <td>@Model.IsValid</td>
+                            <td>@status</td>
                         </tr>
                     </tbody>
                 </table>
 
                 <div class="SendOtpBtn">
-                    <button type="submit">Print</button>
+                    <button type="button">Print</button>
                 </div>
                 <div>
                     <p>@ViewBag.Message</p>

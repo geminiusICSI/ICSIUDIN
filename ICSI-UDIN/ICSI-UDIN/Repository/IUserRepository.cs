@@ -38,7 +38,7 @@ namespace ICSI_UDIN.Repository
 
         int RevokeUDIN(RP_GetUDINList_Result obj);
 
-        List<Certificate> CertificateList();
+        List<Certificate> CertificateList(int TypeOfDocument);
 
         void InsertGenerateUDIN();
 
@@ -46,5 +46,7 @@ namespace ICSI_UDIN.Repository
         bool CheckUdn(tblUser objuser);
 
         tblUser GetUserByUserName(string UserName);
+
+        string UDINGenerationEmailBody(string MembershipNo, string UDINNo, string CINNumber, string FinYear, int UDINId, string DateOfSignDoc);
     }
 }

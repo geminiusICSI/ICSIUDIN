@@ -8,6 +8,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Web;
 using ICSI_UDIN.Models;
+using System.Text;
 
 
 namespace ICSI_UDIN.Repository
@@ -102,14 +103,19 @@ namespace ICSI_UDIN.Repository
                     First7Digit = First7Digit + year;
             }
 
+
             string Last8Digit = string.Empty;
+            int lastValue = 0;
             string FinancialYear = DateTime.Now.Year + "-" + DateTime.Now.AddYears(1).Year.ToString().Substring(2, 2);
             var resGenerateUDIN = DBcontext.tblGenerateUDINs.Where(x => x.FinancialYear == FinancialYear).SingleOrDefault();
             if (resGenerateUDIN == null)
+            {
                 Last8Digit = "0000000" + 1;
+                lastValue = 1;
+            }
             else
             {
-                int lastValue = resGenerateUDIN.TotalCount + 1;
+                lastValue = resGenerateUDIN.TotalCount + 1;
                 for (int i = 0; i < 8 - lastValue.ToString().Length; i++)
                 {
                     Last8Digit += "0";
@@ -117,6 +123,12 @@ namespace ICSI_UDIN.Repository
                 Last8Digit = Last8Digit + lastValue;
             }
             UDINNumber = First7Digit + Last8Digit;
+
+            string MembershipNowithoutChar = MembershipNo.Substring(1, MembershipNo.Length - 1);
+            lastValue = Convert.ToInt32(MembershipNowithoutChar) + lastValue;
+            int last17Value = Convert.ToInt32((lastValue / 11).ToString().Substring(0, 1));
+
+            UDINNumber = UDINNumber + last17Value;
             return UDINNumber;
         }
 
@@ -157,6 +169,7 @@ namespace ICSI_UDIN.Repository
                 mail.To.Add(MailTo);
                 mail.Subject = Subject;
                 mail.Body = Body;
+                mail.IsBodyHtml = true;
 
                 SmtpServer.Port = port;
                 SmtpServer.Credentials = new System.Net.NetworkCredential(username, password);
@@ -184,20 +197,58 @@ namespace ICSI_UDIN.Repository
                     status = DBcontext.SaveChanges();
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 status = 0;
             }
-          
-            
+
+
             return status;
         }
+
+        //public List<RP_GetUDINList_Result> GetUDINList(UDINSearch obj)
+        //{
+        //    try
+        //    {
+
+        //        var result = DBcontext.RP_GetUDINList(obj.UserId, obj.UDIN, obj.FinancialYear, obj.FromDate, obj.ToDate).ToList<RP_GetUDINList_Result>();
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return null;
+        //    }
+
+        //}
 
         public List<RP_GetUDINList_Result> GetUDINList(UDINSearch obj)
         {
             try
             {
-                var result = DBcontext.RP_GetUDINList(obj.UserId, obj.UDIN, obj.FinancialYear, DateTime.ParseExact(obj.FromDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd"), DateTime.ParseExact(obj.ToDate, "dd/MM/yyyy", null).ToString("yyyy-MM-dd")).ToList<RP_GetUDINList_Result>();
+
+                if (obj.UDIN == null)
+                {
+                    obj.UDIN = string.Empty;
+                }
+                if (obj.FinancialYear == null)
+                {
+                    obj.FinancialYear = string.Empty;
+                }
+                if (obj.FromDate == null)
+                {
+                    obj.FromDate = string.Empty;
+
+                }
+                if (obj.ToDate == null)
+                {
+                    obj.ToDate = string.Empty;
+                }
+                var result = DBcontext.Database.SqlQuery<RP_GetUDINList_Result>(
+                "exec [dbo].[RP_GetUDINList] @UserId,@UDINNumber,@FinancialYear,@FromDate,@ToDate",
+                new Object[] { new SqlParameter("@UserId", obj.UserId),
+                               new SqlParameter("@UDINNumber", obj.UDIN),new SqlParameter("@FinancialYear", obj.FinancialYear),new SqlParameter("@FromDate", obj.FromDate),
+                new SqlParameter("@ToDate", obj.ToDate)}
+                ).ToList();
                 return result;
             }
             catch (Exception ex)
@@ -206,11 +257,27 @@ namespace ICSI_UDIN.Repository
             }
 
         }
+        //public int RevokeUDIN(RP_GetUDINList_Result obj)
+        //{
+        //    try
+        //    {
+        //        return DBcontext.RevokeUDIN(obj.MembershipNumber);
+        //    }
+
+
+
+
+        //    catch (Exception ex)
+        //    {
+        //        return 0;
+        //    }
+        //}
+
         public int RevokeUDIN(RP_GetUDINList_Result obj)
         {
             try
             {
-                return DBcontext.RevokeUDIN(obj.MembershipNumber);
+                return DBcontext.RevokeUDIN(obj.ID, obj.UserId, obj.UDINRevokeReason, obj.MembershipNumber);
             }
 
 
@@ -222,12 +289,12 @@ namespace ICSI_UDIN.Repository
             }
         }
 
-        public List<Certificate> CertificateList()
+        public List<Certificate> CertificateList(int TypeOfDocument)
         {
             Certificate objCertificate = new Certificate();
             objCertificate.CertificateId = 0;
             objCertificate.CertificateName = "-- Select --";
-            List<Certificate> lstCertificates = DBcontext.tblDocumentTypes.Where(x => x.IsValid == "Y").Select(x => new Certificate { CertificateId = x.DocumentTypeID, CertificateName = x.DocumentType }).ToList();
+            List<Certificate> lstCertificates = DBcontext.tblDocumentTypes.Where(x => x.IsValid == "Y" && x.TypesOfDocument== TypeOfDocument).Select(x => new Certificate { CertificateId = x.DocumentTypeID, CertificateName = x.DocumentType }).ToList();
             lstCertificates.Add(objCertificate);
             return lstCertificates.OrderBy(x => x.CertificateId).ToList();
         }
@@ -269,6 +336,83 @@ namespace ICSI_UDIN.Repository
 
             return flag;
         }
+
+        public string UDINGenerationEmailBody(string MembershipNo, string UDINNo, string CINNumber, string FinYear, int UDINId, string DateOfSignDoc)
+        {
+            string DocType = string.Empty;
+            string DocDesc = string.Empty;
+            string DocDescinDetail = string.Empty;
+            var resDocumentType = (from objUDIN in DBcontext.tblUDINs
+                                   where objUDIN.ID == UDINId
+                                   select new
+                                   {
+                                       objUDIN.DocumentDescription,
+                                       objUDIN.CertificateTypeId,
+                                       objUDIN.DocumentTypeId
+                                   }).SingleOrDefault();
+
+            if (resDocumentType != null)
+            {
+                if (resDocumentType.CertificateTypeId == 1)
+                    DocType = "Certificates";
+                else if (resDocumentType.CertificateTypeId == 2)
+                    DocType = "Reports";
+                else if (resDocumentType.CertificateTypeId == 3)
+                    DocType = "Other Attest Functions";
+
+                if (!string.IsNullOrEmpty(resDocumentType.DocumentDescription))
+                    DocDesc = resDocumentType.DocumentDescription;
+                else
+                {
+                    var resDocTypes = DBcontext.tblDocumentTypes.Where(x => x.DocumentTypeID == resDocumentType.DocumentTypeId).Select(x => new { x.DocumentType, x.TypeDesc }).SingleOrDefault();
+                    DocDesc = resDocTypes.DocumentType;
+                    DocDescinDetail = resDocTypes.TypeDesc;
+                }
+            }
+
+            StringBuilder sbString = new StringBuilder();
+            sbString.Append("<!DOCTYPE html>"
+                + "<html>"
+                + "<head>"
+                + "</head>"
+                + "<body>"
+                    + "<h2>UDIN GENERATED SUCCESSFULLY</h2>"
+                    + "<table style=\"font-family:arial,sans-serif;border-collapse:collapse;width:100%;font-size:13px;\">"
+                        + "<tr>"
+                            + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">Membership Number</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + MembershipNo + "</td>"
+                        + "</tr>"
+                        + "<tr style=\"background-color:#dddddd\">"
+                            + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">UDIN Number</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + UDINNo + "</td>"
+                        + "</tr>"
+                        + "<tr>"
+                            + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">CIN Number</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + CINNumber + "</td>"
+                        + "</tr>"
+                        + "<tr style=\"background-color:#dddddd\">"
+                           + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">Financial Year</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + FinYear + "</td>"
+                        + "</tr>"
+                        + "<tr>"
+                            + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">Document Type(" + DocType + ")</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + DocDesc + "</td>"
+                        + "</tr>"
+                        + "<tr style=\"background-color:#dddddd\">"
+                            + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">Document Description</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + DocDescinDetail + "</td>"
+                        + "</tr>"
+                        + "<tr>"
+                            + "<th style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #2D4383\">Date of signing documents</th>"
+                            + "<td style=\"border: 1px solid #dddddd;text-align: left;padding: 8px;color: #666\">" + DateOfSignDoc + "</td>"
+                        + "</tr>"
+                    + "</table>"
+                + "</body>"
+                + "</html>");
+
+            return sbString.ToString();
+        }
+
 
     }
 }

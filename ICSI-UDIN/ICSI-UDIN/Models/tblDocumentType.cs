@@ -20,5 +20,6 @@ namespace ICSI_UDIN.Models
         public string IsValid { get; set; }
         public Nullable<int> IssueCerNo { get; set; }
         public Nullable<int> IssueCerPNo { get; set; }
+        public Nullable<int> TypesOfDocument { get; set; }
     }
 }

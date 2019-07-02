@@ -14,6 +14,12 @@ namespace ICSI_UDIN.Models
     
     public partial class tblUDIN
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public tblUDIN()
+        {
+            this.tblRevokeUDINs = new HashSet<tblRevokeUDIN>();
+        }
+    
         public int ID { get; set; }
         public string MembershipNumber { get; set; }
         public Nullable<int> YearOfEnrollment { get; set; }
@@ -29,5 +35,11 @@ namespace ICSI_UDIN.Models
         public string FinancialYear { get; set; }
         public string ClientName { get; set; }
         public string CINNumber { get; set; }
+        public int CertificateTypeId { get; set; }
+        public int UDINInitiative { get; set; }
+        public System.DateTime DateOfSigningDoc { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<tblRevokeUDIN> tblRevokeUDINs { get; set; }
     }
 }

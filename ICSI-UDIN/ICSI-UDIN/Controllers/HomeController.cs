@@ -90,7 +90,7 @@ namespace ICSI_UDIN.Controllers
                     }
                     else
                     {
-                        return RedirectToAction("SearchUDIN");
+                        return RedirectToAction("UDINList");
                     }
 
 
@@ -330,18 +330,64 @@ namespace ICSI_UDIN.Controllers
         }
 
 
-
+        
         public ActionResult SearchUDIN()
         {
             return View();
         }
+        //[HttpPost]
+        //public ActionResult SearchUDIN(UDINSearch obj)
+        //{
+
+        //    if (Session["UserId"] != null)
+        //    {
+        //        if (ModelState.IsValid)
+        //        {
+        //            obj.UserId = Convert.ToInt32(Session["UserId"]);
+        //            var result = _userRepository.GetUDINList(obj);
+        //            if (result != null && result.Count > 0)
+        //            {
+        //                TempData["UDINList"] = result;
+        //                return RedirectToAction("UDINList");
+
+        //            }
+        //            ViewBag.Mesaage = "No Data Found";
+        //            return View(obj);
+
+        //        }
+        //    }
+        //    else
+        //    {
+        //        ViewBag.Session = "You are not Authorized User.";
+        //    }
+
+
+        //    return View(obj);
+
+
+        //}
+
+        //[HttpGet]
+        //public ActionResult UDINList()
+        //{
+        //    var result = TempData.Peek("UDINList") as List<RP_GetUDINList_Result>;
+        //    if (result != null)
+        //    {
+        //        return View(result);
+        //    }
+        //    return View("SearchUDIN");
+
+        //}
+
         [HttpPost]
         public ActionResult SearchUDIN(UDINSearch obj)
         {
+
             if (Session["UserId"] != null)
             {
                 if (ModelState.IsValid)
                 {
+                    TempData["SearchUDIN"] = 1;
                     obj.UserId = Convert.ToInt32(Session["UserId"]);
                     var result = _userRepository.GetUDINList(obj);
                     if (result != null && result.Count > 0)
@@ -355,6 +401,10 @@ namespace ICSI_UDIN.Controllers
 
                 }
             }
+            else
+            {
+                ViewBag.Session = "You are not Authorized User.";
+            }
 
 
             return View(obj);
@@ -365,14 +415,32 @@ namespace ICSI_UDIN.Controllers
         [HttpGet]
         public ActionResult UDINList()
         {
-            var result = TempData.Peek("UDINList") as List<RP_GetUDINList_Result>;
-            if (result != null)
+            ViewBag.Message = "";
+            if (Convert.ToString(TempData["SearchUDIN"]) == "1")
             {
-                return View(result);
+                var result = TempData.Peek("UDINList") as List<RP_GetUDINList_Result>;
+                if (result != null)
+                {
+                    return View(result);
+                }
             }
-            return View("SearchUDIN");
+            else
+            {
+                UDINSearch obj = new UDINSearch();
+                obj.UserId = Convert.ToInt32(Session["UserId"]);
+                var result = _userRepository.GetUDINList(obj);
+                if (result != null && result.Count > 0)
+                {
+
+                    return View(result);
+
+                }
+            }
+            ViewBag.Message = "No Data Found";
+            return View();
 
         }
+
         [HttpGet]
         public ActionResult CancelUDIN(RP_GetUDINList_Result obj)
         {
@@ -381,14 +449,20 @@ namespace ICSI_UDIN.Controllers
         }
 
         [HttpPost]
-        public ActionResult CancelUDIN()
+        public ActionResult CancelUDIN(string UDINRevokeReason)
         {
-            RP_GetUDINList_Result obj = TempData["Revoke"] as RP_GetUDINList_Result;
+
+            RP_GetUDINList_Result obj = TempData.Peek("Revoke") as RP_GetUDINList_Result;
+            obj.UDINRevokeReason = UDINRevokeReason;
+            if (obj.UDINRevokeReason == null || obj.UDINRevokeReason == "")
+            {
+                ViewBag.Message = "Please fill the reason";
+                return View(obj);
+            }
             int result = _userRepository.RevokeUDIN(obj);
             ViewBag.Message = "UDIN Revoke Successfully";
             return View("SearchUDIN");
         }
-
 
 
 
@@ -456,37 +530,44 @@ namespace ICSI_UDIN.Controllers
 
         public ActionResult GenerateUDIN()
         {
-            //int UserId = 1;
             int UserId = Convert.ToInt32(Session["UserID"]);
             tblUser objtblUser = _userRepository.GetUserByID(UserId);
             GenerateUDIN objGenerateUDIN = new GenerateUDIN();
             objGenerateUDIN.MRNNumber = objtblUser.UserName;
             objGenerateUDIN.UDINNumber = _userRepository.UDINGeneration(objGenerateUDIN.MRNNumber);
             objGenerateUDIN.FinancialYear = DateTime.Now.Year + "-" + DateTime.Now.AddYears(1).Year.ToString().Substring(2, 2);
-            objGenerateUDIN.DateOfSigningDoc = DateTime.Now.ToString();
-            objGenerateUDIN.lstCertificates = _userRepository.CertificateList();
+            objGenerateUDIN.DateOfSigningDoc = DateTime.Now.ToString("dd/MM/yyyy").Replace("-", "/");
+
+            objGenerateUDIN.lstCertificates = _userRepository.CertificateList(1);
 
             return View(objGenerateUDIN);
         }
 
         [HttpPost]
-        public ActionResult GenerateUDIN(GenerateUDIN objGenerateUDIN, string rdbgroup)
+        public ActionResult GenerateUDIN(GenerateUDIN objGenerateUDIN, string rdbgroup, string rdbUDINgroup)
         {
-            objGenerateUDIN.lstCertificates = _userRepository.CertificateList();
-            if (rdbgroup == "2" && string.IsNullOrEmpty(objGenerateUDIN.DocDescription))
+            if (Convert.ToInt32(rdbgroup) == 1 || Convert.ToInt32(rdbgroup) == 2)
+                objGenerateUDIN.lstCertificates = _userRepository.CertificateList(Convert.ToInt32(rdbgroup));
+            else if (Convert.ToInt32(rdbgroup) == 3)
+                objGenerateUDIN.lstCertificates = _userRepository.CertificateList(1);
+
+            if (rdbgroup == "3" && string.IsNullOrEmpty(objGenerateUDIN.DocDescription))
             {
                 ViewBag.Message = "Document description must be required";
                 return View(objGenerateUDIN);
             }
-            else if (rdbgroup == "1" && objGenerateUDIN.CertificateId == 0)
+            else if ((rdbgroup == "1" || rdbgroup == "2") && objGenerateUDIN.CertificateId == 0)
             {
-                ViewBag.Message = "Please choose certificate";
+                if (rdbgroup == "1")
+                    ViewBag.Message = "Please choose Certificate";
+                else
+                    ViewBag.Message = "Please choose Report";
+
                 return View(objGenerateUDIN);
             }
 
             if (ModelState.IsValid)
             {
-                //int UserId = 1;
                 int UserId = Convert.ToInt32(Session["UserID"]);
 
                 #region Insert in tblUDIN
@@ -505,30 +586,44 @@ namespace ICSI_UDIN.Controllers
                     objtblUDIN.DocumentDescription = objGenerateUDIN.DocDescription;
                     objtblUDIN.DocumentTypeId = 0;
                 }
+                objtblUDIN.CertificateTypeId = Convert.ToInt32(rdbgroup);
                 objtblUDIN.StatusId = 0;
                 objtblUDIN.UserId = UserId;
                 objtblUDIN.FinancialYear = objGenerateUDIN.FinancialYear;
                 objtblUDIN.ClientName = objGenerateUDIN.ClientName;
                 objtblUDIN.CINNumber = objGenerateUDIN.CINNumber;
+                objtblUDIN.UDINInitiative = Convert.ToInt32(rdbUDINgroup);
+                objtblUDIN.DateOfSigningDoc = Convert.ToDateTime(objGenerateUDIN.DateOfSigningDoc);
 
                 int status = _userRepository.InserttblUDINUser(objtblUDIN);
 
                 if (status > 0)
                 {
                     string EmailTo = _userRepository.GetUserByID(UserId).EmailId;
-                    string Body = "Thank you for registering UDIN. Your 16 digit UDIN number is " + objGenerateUDIN.UDINNumber + ". Please keep this for future communications.";
+                    //string Body = "Thank you for registering UDIN. Your 16 digit UDIN number is " + objGenerateUDIN.UDINNumber + ". Please keep this for future communications.";
                     EmailTo = "akumar@gemini-us.com";
+                    string Body = _userRepository.UDINGenerationEmailBody(objGenerateUDIN.MRNNumber, objGenerateUDIN.UDINNumber, objGenerateUDIN.CINNumber, objGenerateUDIN.FinancialYear, objtblUDIN.ID, objGenerateUDIN.DateOfSigningDoc);
+
                     if (!string.IsNullOrEmpty(EmailTo))
                         _userRepository.sendMail(EmailTo, "UDIN generation", Body);
 
                     _userRepository.InsertGenerateUDIN();
-                    ViewBag.Message = "UDIN has been generated succesfully";
+                    ViewBag.Message = "UDIN has been generated succesfully. UDIN number is " + objGenerateUDIN.UDINNumber + "";
                 }
                 #endregion
-
             }
             return View(objGenerateUDIN);
         }
+
+
+        public JsonResult CertificateList(int TypeOfDocument)
+        {
+            List<Certificate> lstcertificates = new List<Certificate>();
+            lstcertificates = _userRepository.CertificateList(Convert.ToInt32(TypeOfDocument));
+
+            return Json(lstcertificates);
+        }
+
 
 
     }

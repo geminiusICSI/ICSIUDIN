@@ -23,10 +23,12 @@
     <link href="https://unpkg.com/gijgo@1.9.13/css/gijgo.min.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/style.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/themes/base/css")
     @*@Scripts.Render("~/bundles/modernizr")*@
 </head>
 <body>
-    
+
     <section id="Icsi_top_header">
         <div class="container-fluid">
             <div class="Header">
@@ -36,7 +38,7 @@
                             <li class="header_logo_li_1">
                                 <div class="" id="mainLogo">
                                     <a href="https://www.icsi.edu/home">
-                                        <img src="~/Images/logo_full.png" alt="logo" class="img-responsive"/>
+                                        <img src="~/Images/logo_full.png" alt="logo" class="img-responsive" />
                                     </a>
                                 </div>
                             </li>
@@ -58,7 +60,7 @@
                     </div>
                     <div class="menuBar">
                         <nav class="navbar navbar-expand-md bg-dark navbar-dark justify-content-center">
-                            
+
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
                                 <span class="navbar-toggler-icon"></span>
                             </button>
@@ -68,31 +70,23 @@
                                         <a class="nav-link" href="https://www.icsi.edu" target="_blank">Home</a>
                                     </li>
 
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/Home/Index">UDIN Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="~/Home/MembershipRegistation">Member Registration</a>
-                                    </li>
-
+                                  
                                     @*<li class="nav-item">
-                                        <a class="nav-link" href="~/Home/GenerateUDIN">Generate UDIN</a>
+                                        <a class="nav-link" href="~/Home/MembershipRegistation">Member Registration</a>
                                     </li>*@
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="~/Home/GenerateUDIN">Generate UDIN</a>
+                                    </li>
 
                                     <li class="nav-item">
                                         <a class="nav-link" href="~/Home/SearchUDIN">Search UDIN</a>
                                     </li>
 
                                     <li class="nav-item">
-                                        <a class="nav-link" href="https://smash.icsi.in/Scripts/Complaint/ComplaintForm.aspx" target="_blank">Helpdesk</a>
+                                        <a class="nav-link" href="#">PCS Portal</a>
                                     </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="#">FAQs</a>
-                                    </li>
-                                    @*<li class="nav-item">
-                                        <a class="nav-link" href="#">PD Portal</a>
-                                    </li>*@
-
+                                    
                                     <li class="nav-item">
                                         <a class="nav-link" href="~/Home/Index">LogOut</a>
                                     </li>
@@ -106,24 +100,24 @@
         </div>
     </section>
     @*<section id="cilcke_here">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8">
-                    <div class="ClickHerCentertxt">
-                        <h3>To change / update the email and mobile number, please <span><a href="#">Click Here </a></span></h3>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="ClickHerCentertxt">
+                            <h3>To change / update the email and mobile number, please <span><a href="#">Click Here </a></span></h3>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="helplineNum">
-                        <ul>
-                            <li class="Registered">Users Registered: 00000</li>
-                            <li class="Generate">Generated: 87696</li>
-                        </ul>
+                    <div class="col-md-4">
+                        <div class="helplineNum">
+                            <ul>
+                                <li class="Registered">Users Registered: 00000</li>
+                                <li class="Generate">Generated: 87696</li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>*@
+        </section>*@
     <section id="Ca_content_body">
         <div class="container">
             @RenderBody()
@@ -149,13 +143,34 @@
         </div>
         <div id="ca_footer_2">
             <div class="container">
-                <div class="ca_copy_rights">
-                    <p> Copyright 2019 All rights reserved to the ICSI</p>
+                <div style="width:100%;">
+                    <div>
+                        <ul class="listinlineFooter" style="float: none; display: inline-block; margin: 0 auto; text-align: center; width: 100%;">
+                            <li>
+                            <li style="padding:0 10px;">
+                                <a href="https://smash.icsi.in/Scripts/Complaint/ComplaintForm.aspx" target="_blank">Helpdesk</a>
+                            </li>
+                            <li style="padding:0 10px;">
+                                <a href="#">FAQs</a>
+                            </li>
+                            <li style="padding:0 10px;">
+                                <a href="#">Guidelines</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="ca_copy_rights fr" style="float:none; font-style:italic;">
+                        <p> Copyright 2019 All rights reserved to the ICSI</p>
+                    </div>
+
                 </div>
             </div>
         </div>
     </section>
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryui")
     @RenderSection("scripts", required: false)
 </body>
+
 </html>

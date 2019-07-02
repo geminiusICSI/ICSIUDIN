@@ -34,17 +34,30 @@ namespace ICSI_UDIN.Models
         public virtual DbSet<tblErrorLog> tblErrorLogs { get; set; }
         public virtual DbSet<tblGenerateUDIN> tblGenerateUDINs { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
-        public virtual DbSet<tblUDIN> tblUDINs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblUserActivity> tblUserActivities { get; set; }
+        public virtual DbSet<tblUDIN> tblUDINs { get; set; }
+        public virtual DbSet<tblRevokeUDIN> tblRevokeUDINs { get; set; }
     
-        public virtual int RevokeUDIN(string uDINNumber)
+        public virtual int RevokeUDIN(Nullable<int> uDINID, Nullable<int> userId, string uDINReason, string uDINNumber)
         {
+            var uDINIDParameter = uDINID.HasValue ?
+                new ObjectParameter("UDINID", uDINID) :
+                new ObjectParameter("UDINID", typeof(int));
+    
+            var userIdParameter = userId.HasValue ?
+                new ObjectParameter("UserId", userId) :
+                new ObjectParameter("UserId", typeof(int));
+    
+            var uDINReasonParameter = uDINReason != null ?
+                new ObjectParameter("UDINReason", uDINReason) :
+                new ObjectParameter("UDINReason", typeof(string));
+    
             var uDINNumberParameter = uDINNumber != null ?
                 new ObjectParameter("UDINNumber", uDINNumber) :
                 new ObjectParameter("UDINNumber", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RevokeUDIN", uDINNumberParameter);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RevokeUDIN", uDINIDParameter, userIdParameter, uDINReasonParameter, uDINNumberParameter);
         }
     
         public virtual ObjectResult<RP_GetUDINList_Result> RP_GetUDINList(Nullable<int> userId, string uDINNumber, string financialYear, string fromDate, string toDate)

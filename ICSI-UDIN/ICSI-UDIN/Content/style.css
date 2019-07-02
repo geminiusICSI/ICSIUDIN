@@ -1057,4 +1057,41 @@ h5.documentType {
     font-weight: normal;
     color: #666;
 }
-} 
+}
+
+/*css added on 1july 2019*/
+
+.listinlineFooter {
+    padding-left: 0;
+    list-style: none;
+    margin-left: 0px;
+    float: left;
+    font-size: 14px;
+}
+
+    .listinlineFooter > li {
+        display: inline-block;
+        padding-right: 5px;
+        padding-left: 5px;
+        line-height: 0px;
+    }
+
+.fr {
+    float: right;
+}
+
+#ca_footer_2 {
+    overflow: hidden;
+    line-height: 23px;
+}
+
+    .submitbtn input {
+        text-align: center;
+        color: #ffffff;
+        background: #2D4383;
+        border: none;
+        border-radius: 4px;
+        width: 108px;
+        padding: 6px;
+    }
+

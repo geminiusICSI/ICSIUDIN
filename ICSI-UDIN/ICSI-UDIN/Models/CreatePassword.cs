@@ -11,6 +11,7 @@ namespace ICSI_UDIN.Models
 
         [Required(ErrorMessage = "New password is required", AllowEmptyStrings = false)]
         [StringLength(255, ErrorMessage = "Must be between 6 and 255 characters", MinimumLength = 6)]
+        [RegularExpression(@"^[a-zA-Z0-9]*$", ErrorMessage = "Password should be alpha numeric")]
         [DataType(DataType.Password)]
         public string NewPassword { get; set; }
 
@@ -18,5 +19,8 @@ namespace ICSI_UDIN.Models
         [DataType(DataType.Password)]
         [Compare("NewPassword", ErrorMessage = "New password and confirm password does not match")]
         public string ConfirmPassword { get; set; }
+
+
+
     }
 }

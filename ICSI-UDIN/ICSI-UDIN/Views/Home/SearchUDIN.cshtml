@@ -22,27 +22,51 @@
             </div>
 
             <div class="form-group siderbarlgnform">
-
-                @Html.TextBoxFor(model => model.FromDate, new { @class = "form-control formblock", id = "fromDate", name = "fromDate", placeholder = "FromDate (DD/MM/YYYY)" })
+                @Html.EditorFor(model => model.FromDate, new { htmlAttributes = new { id="fromDate", @class = "form-control formblock", placeholder = "From Date", @readonly = "true" } })
+                @*@Html.TextBoxFor(model => model.FromDate, new { @class = "form-control formblock", id = "fromDate", name = "fromDate", placeholder = "FromDate (DD/MM/YYYY)" })*@
                 @Html.ValidationMessageFor(model => model.FromDate, "", new { @class = "text-danger" })
             </div>
             <div class="form-group siderbarlgnform">
-
-                @Html.TextBoxFor(model => model.ToDate, new { @class = "form-control formblock", id = "financialYear", name = "financialYear", placeholder = "ToDate (DD/MM/YYYY)" })
+                @Html.EditorFor(model => model.ToDate, new { htmlAttributes = new { id="toDate", @class = "form-control formblock", placeholder = "To Date", @readonly = "true" } })
+                @*@Html.TextBoxFor(model => model., new { @class = "form-control formblock", id = "financialYear", name = "financialYear", placeholder = "ToDate (DD/MM/YYYY)" })*@
                 @Html.ValidationMessageFor(model => model.ToDate, "", new { @class = "text-danger" })
-            </div>       
+            </div>
 
             <div class="SendOtpBtn">
                 <button type="submit">Search</button>
-               
-               
+
+
             </div>
             <div>
-                <p>@ViewBag.Mesaage</p>
+                <p style="background-color:red">@ViewBag.Mesaage</p>
+            </div>
+            <div>
+                <p style="background-color:red"> @ViewBag.Session </p>
             </div>
         </form>
     </div>
 </div>
+<!-- jQuery UI CSS Reference -->
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#fromDate').datepicker({
+            dateFormat: "mm/dd/yy",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-60:+0" 
+        });
+        $('#toDate').datepicker({
+            dateFormat: "mm/dd/yy",
+            changeMonth: true,
+            changeYear: true,
+            yearRange: "-60:+0"
+        });
+    });  
+
+</script>
 
 
 
