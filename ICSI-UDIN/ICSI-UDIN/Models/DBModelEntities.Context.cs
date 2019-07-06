@@ -105,5 +105,10 @@ namespace ICSI_UDIN.Models
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_UDINVerification_Result>("RP_UDINVerification", fNameParameter, emailIdParameter, mobileNumberParameter, membershipNumberParameter);
         }
+    
+        public virtual ObjectResult<GetTotalUserUDIN_Result> GetTotalUserUDIN()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTotalUserUDIN_Result>("GetTotalUserUDIN");
+        }
     }
 }

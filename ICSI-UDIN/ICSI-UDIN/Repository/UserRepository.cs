@@ -48,7 +48,7 @@ namespace ICSI_UDIN.Repository
             return DBcontext.tblUsers.Find(UserId);
         }
         public tblUser GetUserByUserName(string UserName)
-        {
+        {   
             return DBcontext.tblUsers.Where(x => x.UserName == UserName).FirstOrDefault();
         }
 
@@ -411,6 +411,19 @@ namespace ICSI_UDIN.Repository
                 + "</html>");
 
             return sbString.ToString();
+        }
+
+        public GetTotalUserUDIN_Result GetTotalUDINUser()
+        {
+            try
+            {
+                return DBcontext.GetTotalUserUDIN().SingleOrDefault();
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
         }
 
 

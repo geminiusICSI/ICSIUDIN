@@ -64,7 +64,7 @@
                                             <p class="statuActive"><strong>Status:</strong>@status</p> <button type="submit" class="printGreen">Print UDIN</button>
                                             @if (item.IsValid == "Y" || item.IsValid == "1")
                                             {
-                                                <button type="button" class="revokeRed" onclick="location.href='@Url.Action("CancelUDIN", "Home", @item)'">Cancel UDIN</button>
+                                                <button type="button" class="revokeRed" onclick="location.href='@Url.Action("CancelUDIN", "Home", @item)'">Revoke UDIN</button>
                                             }
                                         </td>
 

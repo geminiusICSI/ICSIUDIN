@@ -48,5 +48,7 @@ namespace ICSI_UDIN.Repository
         tblUser GetUserByUserName(string UserName);
 
         string UDINGenerationEmailBody(string MembershipNo, string UDINNo, string CINNumber, string FinYear, int UDINId, string DateOfSignDoc);
+
+        GetTotalUserUDIN_Result GetTotalUDINUser();
     }
 }

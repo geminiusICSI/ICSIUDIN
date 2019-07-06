@@ -24,6 +24,12 @@ namespace ICSI_UDIN.Controllers
         [HttpGet]
         public ActionResult Index()
         {
+            GetTotalUserUDIN_Result totalUsers = _userRepository.GetTotalUDINUser();
+            if (totalUsers != null)
+            {
+                Session["TotalUDINs"] = totalUsers.TotalUDINs;
+                Session["ToTalUsers"] = totalUsers.TotalUsers;
+            }
             return View();
         }
 
@@ -68,12 +74,27 @@ namespace ICSI_UDIN.Controllers
             string message = string.Empty;
             if (ModelState.IsValid)
             {
-                int userid = _userRepository.GetUserByUserName(obj.UserName).UserId;
+                int userid = 0;
+                tblUser tblUser=_userRepository.GetUserByUserName(obj.UserName);
+                if (tblUser == null)
+                {
+                    ViewBag.Message = "You are not registered. Please go to Member registeration link.";
+                    return View(obj);
+                }
+                else
+                {
+                    userid = tblUser.UserId;
+                }
                 objtbluser.UserName = obj.UserName;
                 objtbluser.UserId = userid;
                 Session["LogedUserID"] = objtbluser.UserName.ToString();
                 Session["UserID"] = userid;
                 objtbluser.Password = obj.Password;
+
+                //for count user
+                Session["UserName"] = objtbluser.UserName;
+               
+               
 
                 check = _userRepository.CheckLogin(objtbluser);
                 if (check == false)
@@ -536,7 +557,7 @@ namespace ICSI_UDIN.Controllers
             objGenerateUDIN.MRNNumber = objtblUser.UserName;
             objGenerateUDIN.UDINNumber = _userRepository.UDINGeneration(objGenerateUDIN.MRNNumber);
             objGenerateUDIN.FinancialYear = DateTime.Now.Year + "-" + DateTime.Now.AddYears(1).Year.ToString().Substring(2, 2);
-            objGenerateUDIN.DateOfSigningDoc = DateTime.Now.ToString("dd/MM/yyyy").Replace("-", "/");
+            //objGenerateUDIN.DateOfSigningDoc = DateTime.Now.ToString("dd/MM/yyyy").Replace("-", "/");
 
             objGenerateUDIN.lstCertificates = _userRepository.CertificateList(1);
 
@@ -578,13 +599,13 @@ namespace ICSI_UDIN.Controllers
                 objtblUDIN.CreatedBy = null;
                 objtblUDIN.ModifyDate = null;
                 objtblUDIN.UDINUniqueCode = objGenerateUDIN.UDINNumber;
-                objtblUDIN.IsValid = "1";
+                objtblUDIN.IsValid = "Y";
                 if (string.IsNullOrEmpty(objGenerateUDIN.DocDescription))
                     objtblUDIN.DocumentTypeId = objGenerateUDIN.CertificateId;
                 else
                 {
                     objtblUDIN.DocumentDescription = objGenerateUDIN.DocDescription;
-                    objtblUDIN.DocumentTypeId = 0;
+                    objtblUDIN.DocumentTypeId = 13;
                 }
                 objtblUDIN.CertificateTypeId = Convert.ToInt32(rdbgroup);
                 objtblUDIN.StatusId = 0;
@@ -601,7 +622,7 @@ namespace ICSI_UDIN.Controllers
                 {
                     string EmailTo = _userRepository.GetUserByID(UserId).EmailId;
                     //string Body = "Thank you for registering UDIN. Your 16 digit UDIN number is " + objGenerateUDIN.UDINNumber + ". Please keep this for future communications.";
-                    EmailTo = "akumar@gemini-us.com";
+                   // EmailTo = "akumar@gemini-us.com";
                     string Body = _userRepository.UDINGenerationEmailBody(objGenerateUDIN.MRNNumber, objGenerateUDIN.UDINNumber, objGenerateUDIN.CINNumber, objGenerateUDIN.FinancialYear, objtblUDIN.ID, objGenerateUDIN.DateOfSigningDoc);
 
                     if (!string.IsNullOrEmpty(EmailTo))
@@ -623,6 +644,23 @@ namespace ICSI_UDIN.Controllers
 
             return Json(lstcertificates);
         }
+
+
+        public FileResult download()
+        {
+
+
+            string filename = Server.MapPath("~/PDF/UdinGuidelines.pdf");
+
+            string contentType = "application/pdf";
+            //Parameters to file are
+            //1. The File Path on the File Server
+            //2. The content type MIME type
+            //3. The parameter for the file save by the browser
+            return File(filename, contentType, "UdinGuidelines.pdf");
+        }
+
+
 
 
 

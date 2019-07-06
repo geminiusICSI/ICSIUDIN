@@ -20,6 +20,6 @@ namespace ICSI_UDIN.Models
         public int ID { get; set; }
         public int UserId { get; set; }
         public string IsValid { get; set; }
-        
+
     }
 }

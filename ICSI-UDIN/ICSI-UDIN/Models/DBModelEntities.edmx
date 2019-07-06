@@ -157,6 +157,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="GetTotalUserUDIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <Function Name="RevokeUDIN" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="UDINID" Type="int" Mode="In" />
           <Parameter Name="UserId" Type="int" Mode="In" />
@@ -336,6 +337,7 @@
             <End Role="tblUser" EntitySet="tblUsers" />
             <End Role="tblRevokeUDIN" EntitySet="tblRevokeUDINs" />
           </AssociationSet>
+          <FunctionImport Name="GetTotalUserUDIN" ReturnType="Collection(ICSI_StimulateModel.GetTotalUserUDIN_Result)" />
         </EntityContainer>
         <ComplexType Name="RP_GetUDINList_Result">
           <Property Type="String" Name="MembershipNumber" Nullable="true" MaxLength="20" />
@@ -421,6 +423,10 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <ComplexType Name="GetTotalUserUDIN_Result">
+          <Property Type="Int32" Name="TotalUDINs" Nullable="true" />
+          <Property Type="Int32" Name="TotalUsers" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -599,6 +605,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="GetTotalUserUDIN" FunctionName="ICSI_StimulateModel.Store.GetTotalUserUDIN">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="ICSI_StimulateModel.GetTotalUserUDIN_Result">
+                <ScalarProperty Name="TotalUDINs" ColumnName="TotalUDINs" />
+                <ScalarProperty Name="TotalUsers" ColumnName="TotalUsers" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

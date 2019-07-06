@@ -158,7 +158,9 @@ E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CopyComplete
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.dll
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.pdb
 E:\Code_Project\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csprojAssemblyReference.cache
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CoreCompileInputs.cache
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Cryptography.Algorithms.dll
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Text.Encoding.CodePages.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.dll.config
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\ICSI-UDIN.pdb
@@ -169,7 +171,6 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\csi.exe
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\csi.exe.config
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\csi.rsp
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\Microsoft.CodeAnalysis.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll
@@ -192,12 +193,10 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.IO.Pipes.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Reflection.Metadata.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.AccessControl.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Claims.dll
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Cryptography.Algorithms.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Cryptography.Encoding.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Cryptography.Primitives.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Cryptography.X509Certificates.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Security.Principal.Windows.dll
-E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Text.Encoding.CodePages.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.ValueTuple.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Xml.ReaderWriter.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\roslyn\System.Xml.XmlDocument.dll
@@ -244,6 +243,7 @@ E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\System.Web.WebPages.Razor.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Newtonsoft.Json.xml
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Antlr3.Runtime.pdb
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CoreCompileInputs.cache
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.csproj.CopyComplete
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.dll
 E:\CodeProject_Gemini\ICSI-UDIN\ICSI-UDIN\obj\Debug\ICSI-UDIN.pdb
