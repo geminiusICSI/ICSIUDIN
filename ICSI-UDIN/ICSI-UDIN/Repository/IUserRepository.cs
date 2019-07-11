@@ -50,5 +50,10 @@ namespace ICSI_UDIN.Repository
         string UDINGenerationEmailBody(string MembershipNo, string UDINNo, string CINNumber, string FinYear, int UDINId, string DateOfSignDoc);
 
         GetTotalUserUDIN_Result GetTotalUDINUser();
+
+        bool CheckUdnExistance(string UDNNumber);
+        List<Forgotpassword> FogotPassword(string MemmbershipNumber, DateTime DOB, int YearOfEnrollment);
+        void UpdatePassword(tblUser objuser);
+
     }
 }

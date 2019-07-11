@@ -11,8 +11,8 @@
     <div class="form-horizontal">
 
         @*<hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <h4>UDIN Verification</h4>*@
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <h4>UDIN Verification</h4>*@
 
 
 
@@ -31,7 +31,7 @@
                 @Html.ValidationMessageFor(model => model.FName, "", new { @class = "text-danger" })
             </div>
         </div>
-            
+
 
         <div class="form-group">
             @Html.Label("Enter Mobile No", htmlAttributes: new { @class = "control-label col-md-2" })
@@ -51,7 +51,7 @@
 
         <div class="form-group">
             @Html.Label("Enter Unique UDIN", htmlAttributes: new { @class = "control-label col-md-2" })
-            
+
             <div class="col-md-10">
                 @Html.EditorFor(model => model.MembershipNumber, new { htmlAttributes = new { @class = "form-control" } })
                 @Html.ValidationMessageFor(model => model.MembershipNumber, "", new { @class = "text-danger" })
@@ -71,30 +71,49 @@
         </div>
 
         @*<div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                @ViewBag.anotp
-                <input id="Submit1" type="submit" value="Generate OTP" class="btn btn-default" />                       
-            </div>
-        </div>*@
+                <div class="col-md-offset-2 col-md-10">
+                    @ViewBag.anotp
+                    <input id="Submit1" type="submit" value="Generate OTP" class="btn btn-default" />
+                </div>
+            </div>*@
         <div>
 
         </div>
     </div>
 
-    
-                    <div class="SendOtpBtn">
-                        <button type="submit">Verify</button>
-                    </div>
+
+    <div class="SendOtpBtn">
+        <button type="submit">Verify</button>
+    </div>
+
+    <div class="text-danger">
+        @if (ViewBag.VNF != null)
+        {
+            <p>
+                @ViewBag.VNF
+            </p>
+        }
+
+    </div>
+    <div class="text-danger">
+        @if (ViewBag.CaptchMessage != null)
+        {
+            <p>
+                @ViewBag.CaptchMessage
+            </p>
+        }
+
+    </div>
 }
 @*<div>
-    @Html.ActionLink("Verify", "Index")
-</div>*@
+        @Html.ActionLink("Verify", "Index")
+    </div>*@
 
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 
- 
+
     <script>
     function UDINCaptchaRefresh(img) {
 

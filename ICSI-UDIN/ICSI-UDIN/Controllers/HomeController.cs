@@ -18,7 +18,7 @@ namespace ICSI_UDIN.Controllers
         private IUserRepository _userRepository;
         public HomeController()
         {
-            this._userRepository = new UserRepository(new ICSI_DBModleEntities());
+            this._userRepository = new UserRepository(new ICSI_DBModelEntities());
         }
 
         [HttpGet]
@@ -122,6 +122,56 @@ namespace ICSI_UDIN.Controllers
                 ModelState.AddModelError("", " Wrong User/Password.");
             }
             return View(obj);
+        }
+
+        [HttpPost]
+        public ActionResult ForgotPassword(Forgotpassword objpassword)
+        {
+            tblUser objuser = new tblUser();
+            string msg = string.Empty;
+            if (ModelState.IsValid)
+            {
+                string MemmbershipNumber = Convert.ToString(objpassword.MemmbershipNumber);
+                DateTime DOB = Convert.ToDateTime(objpassword.DOB);
+                int YearOfEnrollment = Convert.ToInt32(objpassword.YearOfEnrolment);
+                List<Forgotpassword> EmailId = _userRepository.FogotPassword(MemmbershipNumber, DOB, YearOfEnrollment);
+                if (EmailId.Count == 0)
+                {
+                    msg = "Invalid MemmbershipNumber/DOB/YearOfEnrollment";
+                    ViewBag.msg = msg;
+                }
+                else
+                {
+                    int year = Convert.ToInt32(DOB.Year);
+                    string Email = EmailId[0].EmailId.ToString();
+                    string maskedEmail = objpassword.MaskEmail(Email);
+                    TempData["mail"] = maskedEmail;
+                    TempData.Keep();
+                    string NewPassword = year + MemmbershipNumber;
+                    objuser.EmailId = Email;
+                    objuser.Password = NewPassword;
+                    _userRepository.UpdatePassword(objuser);
+                    string Body = "Please use this Password :" + NewPassword + ". Please keep this for future communications.";
+                    _userRepository.sendMail(Email, "Forgot Password", Body);
+                    return RedirectToAction("NewPassword");
+
+                }
+
+            }
+            else
+            {
+                ModelState.AddModelError("", " Wrong MemmbershipNumber/DOB/EmailId.");
+            }
+
+            return View();
+        }
+        public ActionResult NewPassword(string maskedEmail)
+        {
+            maskedEmail = TempData.Peek("mail").ToString();
+            string msg = "New Generate Password has sent your maild please check : " + maskedEmail;
+            ViewBag.msg = msg;
+
+            return View();
         }
 
         public ActionResult Details(int UserId)
@@ -230,6 +280,7 @@ namespace ICSI_UDIN.Controllers
 
         }
 
+
         [HttpPost]
         public ActionResult UDINVerification(UDINVerification obj)
         {
@@ -237,20 +288,25 @@ namespace ICSI_UDIN.Controllers
             if (!string.IsNullOrEmpty(Convert.ToString(Session["UDINCaptchaCode"])) && obj.CaptchaCode == Convert.ToString(Session["UdinCaptchaCode"]))
             {
                 ViewBag.CaptchMessage = "";
-               var result = _userRepository.GetUDINVerification(obj);
+                var result = _userRepository.GetUDINVerification(obj);
                 if (result != null)
                 {
                     ViewBag.VNF = "";
                     TempData["Data"] = result;
                     return RedirectToAction("UDINDocumentDetails", obj);
                 }
-               else {
-                    ViewBag.VNF = "No Verification Found";
+                else
+                {
+                    ViewBag.VNF = "UDIN does not exist.";
                 }
 
 
             }
-            ViewBag.CaptchMessage = "Captcha is not Match";
+            else
+            {
+                ViewBag.CaptchMessage = "Captcha is not Match";
+            }
+
             return View();
 
 
@@ -452,7 +508,7 @@ namespace ICSI_UDIN.Controllers
                 var result = _userRepository.GetUDINList(obj);
                 if (result != null && result.Count > 0)
                 {
-
+                    TempData["UDINList"] = result;
                     return View(result);
 
                 }
@@ -490,11 +546,12 @@ namespace ICSI_UDIN.Controllers
         [HttpGet]
         public ActionResult ExportToExcel()
         {
-            var resultTempData = TempData["UDINList"] as List<RP_GetUDINList_Result>;
+            var resultTempData = TempData.Peek("UDINList") as List<RP_GetUDINList_Result>;
 
             var gv = new GridView();
             gv.DataSource = resultTempData;
             gv.DataBind();
+            gv.HeaderRow.Cells[0].Text = "UDIN Number";
             Response.ClearContent();
             Response.Buffer = true;
             Response.AddHeader("content-disposition", "attachment; filename=DemoExcel.xls");
@@ -508,13 +565,6 @@ namespace ICSI_UDIN.Controllers
             Response.End();
             return View("UDINList", resultTempData);
         }
-
-
-        public ActionResult ForgetPassword()
-        {
-            return View();
-        }
-
 
         public ActionResult HelpDeskFacilty()
         {
@@ -590,48 +640,56 @@ namespace ICSI_UDIN.Controllers
             if (ModelState.IsValid)
             {
                 int UserId = Convert.ToInt32(Session["UserID"]);
+                bool flag = _userRepository.CheckUdnExistance(objGenerateUDIN.UDINNumber);
 
-                #region Insert in tblUDIN
-                tblUDIN objtblUDIN = new tblUDIN();
-                objtblUDIN.MembershipNumber = objGenerateUDIN.MRNNumber;
-                objtblUDIN.YearOfEnrollment = null;
-                objtblUDIN.CreatedDate = DateTime.Now;
-                objtblUDIN.CreatedBy = null;
-                objtblUDIN.ModifyDate = null;
-                objtblUDIN.UDINUniqueCode = objGenerateUDIN.UDINNumber;
-                objtblUDIN.IsValid = "Y";
-                if (string.IsNullOrEmpty(objGenerateUDIN.DocDescription))
-                    objtblUDIN.DocumentTypeId = objGenerateUDIN.CertificateId;
+                if (flag == false)
+                {
+                    #region Insert in tblUDIN
+                    tblUDIN objtblUDIN = new tblUDIN();
+                    objtblUDIN.MembershipNumber = objGenerateUDIN.MRNNumber;
+                    objtblUDIN.YearOfEnrollment = null;
+                    objtblUDIN.CreatedDate = DateTime.Now;
+                    objtblUDIN.CreatedBy = null;
+                    objtblUDIN.ModifyDate = null;
+                    objtblUDIN.UDINUniqueCode = objGenerateUDIN.UDINNumber;
+                    objtblUDIN.IsValid = "Y";
+                    if (string.IsNullOrEmpty(objGenerateUDIN.DocDescription))
+                        objtblUDIN.DocumentTypeId = objGenerateUDIN.CertificateId;
+                    else
+                    {
+                        objtblUDIN.DocumentDescription = objGenerateUDIN.DocDescription;
+                        objtblUDIN.DocumentTypeId = 13;
+                    }
+                    objtblUDIN.CertificateTypeId = Convert.ToInt32(rdbgroup);
+                    objtblUDIN.StatusId = 0;
+                    objtblUDIN.UserId = UserId;
+                    objtblUDIN.FinancialYear = objGenerateUDIN.FinancialYear;
+                    objtblUDIN.ClientName = objGenerateUDIN.ClientName;
+                    objtblUDIN.CINNumber = objGenerateUDIN.CINNumber;
+                    objtblUDIN.UDINInitiative = Convert.ToInt32(rdbUDINgroup);
+                    objtblUDIN.DateOfSigningDoc = Convert.ToDateTime(objGenerateUDIN.DateOfSigningDoc);
+
+                    int status = _userRepository.InserttblUDINUser(objtblUDIN);
+
+                    if (status > 0)
+                    {
+                        string EmailTo = _userRepository.GetUserByID(UserId).EmailId;
+                        //string Body = "Thank you for registering UDIN. Your 16 digit UDIN number is " + objGenerateUDIN.UDINNumber + ". Please keep this for future communications.";
+                        // EmailTo = "akumar@gemini-us.com";
+                        string Body = _userRepository.UDINGenerationEmailBody(objGenerateUDIN.MRNNumber, objGenerateUDIN.UDINNumber, objGenerateUDIN.CINNumber, objGenerateUDIN.FinancialYear, objtblUDIN.ID, objGenerateUDIN.DateOfSigningDoc);
+
+                        if (!string.IsNullOrEmpty(EmailTo))
+                            _userRepository.sendMail(EmailTo, "UDIN generation", Body);
+
+                        _userRepository.InsertGenerateUDIN();
+                        ViewBag.Message = "UDIN has been generated successfully. UDIN number is " + objGenerateUDIN.UDINNumber + ". Kindly note that the Certifiate can only be revoked with in 15 days of issue.";
+                    }
+                    #endregion
+                }
                 else
                 {
-                    objtblUDIN.DocumentDescription = objGenerateUDIN.DocDescription;
-                    objtblUDIN.DocumentTypeId = 13;
+                    ViewBag.Message = "Please refresh the page for multiple UDIN generation.";
                 }
-                objtblUDIN.CertificateTypeId = Convert.ToInt32(rdbgroup);
-                objtblUDIN.StatusId = 0;
-                objtblUDIN.UserId = UserId;
-                objtblUDIN.FinancialYear = objGenerateUDIN.FinancialYear;
-                objtblUDIN.ClientName = objGenerateUDIN.ClientName;
-                objtblUDIN.CINNumber = objGenerateUDIN.CINNumber;
-                objtblUDIN.UDINInitiative = Convert.ToInt32(rdbUDINgroup);
-                objtblUDIN.DateOfSigningDoc = Convert.ToDateTime(objGenerateUDIN.DateOfSigningDoc);
-
-                int status = _userRepository.InserttblUDINUser(objtblUDIN);
-
-                if (status > 0)
-                {
-                    string EmailTo = _userRepository.GetUserByID(UserId).EmailId;
-                    //string Body = "Thank you for registering UDIN. Your 16 digit UDIN number is " + objGenerateUDIN.UDINNumber + ". Please keep this for future communications.";
-                   // EmailTo = "akumar@gemini-us.com";
-                    string Body = _userRepository.UDINGenerationEmailBody(objGenerateUDIN.MRNNumber, objGenerateUDIN.UDINNumber, objGenerateUDIN.CINNumber, objGenerateUDIN.FinancialYear, objtblUDIN.ID, objGenerateUDIN.DateOfSigningDoc);
-
-                    if (!string.IsNullOrEmpty(EmailTo))
-                        _userRepository.sendMail(EmailTo, "UDIN generation", Body);
-
-                    _userRepository.InsertGenerateUDIN();
-                    ViewBag.Message = "UDIN has been generated succesfully. UDIN number is " + objGenerateUDIN.UDINNumber + "";
-                }
-                #endregion
             }
             return View(objGenerateUDIN);
         }
@@ -646,10 +704,11 @@ namespace ICSI_UDIN.Controllers
         }
 
 
-        public FileResult download()
+        public FileResult download(string Parameter)
         {
 
 
+           
             string filename = Server.MapPath("~/PDF/UdinGuidelines.pdf");
 
             string contentType = "application/pdf";

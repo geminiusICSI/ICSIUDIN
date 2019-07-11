@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="ef2c1d78bdd64224bdb63f5b7a160a24" Name="Diagram1">
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblCertificateType" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblComplaint" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblDocParticular" Width="1.5" PointX="0.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblDocumentType" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblErrorLog" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblGenerateUDIN" Width="1.5" PointX="4.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblStatu" Width="1.5" PointX="6.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblUser" Width="1.5" PointX="2.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblUserActivity" Width="1.5" PointX="6.75" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblUDIN" Width="1.5" PointX="5.375" PointY="6.75" />
-        <EntityTypeShape EntityType="ICSI_StimulateModel.tblRevokeUDIN" Width="1.5" PointX="7.625" PointY="7.875" />
+      <Diagram DiagramId="5d1b9a042aef4b84ae9ba3ce49923136" Name="Diagram1">
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblCertificateType" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblComplaint" Width="1.5" PointX="2.75" PointY="5.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblDocParticular" Width="1.5" PointX="5.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblDocumentType" Width="1.5" PointX="4.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblErrorLog" Width="1.5" PointX="6.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblGenerateUDIN" Width="1.5" PointX="7.75" PointY="0.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblRevokeUDIN" Width="1.5" PointX="3" PointY="2.25" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblStatu" Width="1.5" PointX="7.75" PointY="3.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblUDIN" Width="1.5" PointX="0.75" PointY="1" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblUser" Width="1.5" PointX="0.75" PointY="6.75" />
+        <EntityTypeShape EntityType="ICSI_StimulateModel.tblUserActivity" Width="1.5" PointX="8.75" PointY="6.75" />
         <AssociationConnector Association="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUDIN" />
         <AssociationConnector Association="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser" />
       </Diagram>

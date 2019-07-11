@@ -15,10 +15,10 @@ namespace ICSI_UDIN.Models
     using System.Data.Entity.Core.Objects;
     using System.Linq;
     
-    public partial class ICSI_DBModleEntities : DbContext
+    public partial class ICSI_DBModelEntities : DbContext
     {
-        public ICSI_DBModleEntities()
-            : base("name=ICSI_DBModleEntities")
+        public ICSI_DBModelEntities()
+            : base("name=ICSI_DBModelEntities")
         {
         }
     
@@ -33,11 +33,16 @@ namespace ICSI_UDIN.Models
         public virtual DbSet<tblDocumentType> tblDocumentTypes { get; set; }
         public virtual DbSet<tblErrorLog> tblErrorLogs { get; set; }
         public virtual DbSet<tblGenerateUDIN> tblGenerateUDINs { get; set; }
+        public virtual DbSet<tblRevokeUDIN> tblRevokeUDINs { get; set; }
         public virtual DbSet<tblStatu> tblStatus { get; set; }
+        public virtual DbSet<tblUDIN> tblUDINs { get; set; }
         public virtual DbSet<tblUser> tblUsers { get; set; }
         public virtual DbSet<tblUserActivity> tblUserActivities { get; set; }
-        public virtual DbSet<tblUDIN> tblUDINs { get; set; }
-        public virtual DbSet<tblRevokeUDIN> tblRevokeUDINs { get; set; }
+    
+        public virtual ObjectResult<GetTotalUserUDIN_Result> GetTotalUserUDIN()
+        {
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTotalUserUDIN_Result>("GetTotalUserUDIN");
+        }
     
         public virtual int RevokeUDIN(Nullable<int> uDINID, Nullable<int> userId, string uDINReason, string uDINNumber)
         {
@@ -60,7 +65,7 @@ namespace ICSI_UDIN.Models
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RevokeUDIN", uDINIDParameter, userIdParameter, uDINReasonParameter, uDINNumberParameter);
         }
     
-        public virtual ObjectResult<RP_GetUDINList_Result> RP_GetUDINList(Nullable<int> userId, string uDINNumber, string financialYear, string fromDate, string toDate)
+        public virtual int RP_GetUDINList(Nullable<int> userId, string uDINNumber, string financialYear, string fromDate, string toDate, string membershipNo, string membershipName)
         {
             var userIdParameter = userId.HasValue ?
                 new ObjectParameter("UserId", userId) :
@@ -82,7 +87,15 @@ namespace ICSI_UDIN.Models
                 new ObjectParameter("ToDate", toDate) :
                 new ObjectParameter("ToDate", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_GetUDINList_Result>("RP_GetUDINList", userIdParameter, uDINNumberParameter, financialYearParameter, fromDateParameter, toDateParameter);
+            var membershipNoParameter = membershipNo != null ?
+                new ObjectParameter("MembershipNo", membershipNo) :
+                new ObjectParameter("MembershipNo", typeof(string));
+    
+            var membershipNameParameter = membershipName != null ?
+                new ObjectParameter("MembershipName", membershipName) :
+                new ObjectParameter("MembershipName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("RP_GetUDINList", userIdParameter, uDINNumberParameter, financialYearParameter, fromDateParameter, toDateParameter, membershipNoParameter, membershipNameParameter);
         }
     
         public virtual ObjectResult<RP_UDINVerification_Result> RP_UDINVerification(string fName, string emailId, string mobileNumber, string membershipNumber)
@@ -104,11 +117,6 @@ namespace ICSI_UDIN.Models
                 new ObjectParameter("MembershipNumber", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<RP_UDINVerification_Result>("RP_UDINVerification", fNameParameter, emailIdParameter, mobileNumberParameter, membershipNumberParameter);
-        }
-    
-        public virtual ObjectResult<GetTotalUserUDIN_Result> GetTotalUserUDIN()
-        {
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<GetTotalUserUDIN_Result>("GetTotalUserUDIN");
         }
     }
 }

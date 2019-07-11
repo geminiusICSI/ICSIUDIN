@@ -1,10 +1,12 @@
 ﻿@model IEnumerable<ICSI_UDIN.Models.RP_GetUDINList_Result>
 @{
-    ViewBag.Title = "UDINList";
-    Layout = "~/Views/Shared/_Layoutlogin.cshtml";
-    int count = 0;
-    DateTime dt = new DateTime();
-    string status = string.Empty;
+                /**/
+
+                ViewBag.Title = "UDINList";
+                Layout = "~/Views/Shared/_Layoutlogin.cshtml";
+                int count = 0;
+                DateTime dt = new DateTime();
+                string status = string.Empty;
 }
 
 <div class="container">
@@ -19,8 +21,8 @@
 
             <div class="row PrintDownloadButtns">
                 <div class="col-sm-12 text-right">
-                    <button id="PrintListBtn" class="center-block">Print List</button>                    
-                    <button id="DownloadListBtn" class="ExitLogoutBtn center-block" type="button" onclick="location.href='@Url.Action("ExportToExcel", "Home",@ViewBag.MembershipNumber)'">Download List</button>
+                    <button id="PrintListBtn" class="center-block">Print List</button>
+                    <button id="DownloadListBtn" class="ExitLogoutBtn center-block" style="background-color: rgb(45, 70, 144); color:#fff;" type="button" onclick="location.href='@Url.Action("ExportToExcel", "Home",@ViewBag.MembershipNumber)'">Download List</button>
                 </div>
             </div>
 
@@ -32,7 +34,7 @@
                             <tr>
                                 @*<th class="theadd">S.No</th>*@
                                 <th class="theadd">UDIN</th>
-                                <th class="theadd">Membership no.</th>
+                                <th class="theadd">Membership Name/No.</th>
                                 <th class="theadd">Document Type</th>
                                 <th class="theadd">Date Of Signing</th>
                                 <th class="theadd">Financial Year</th>
@@ -64,7 +66,7 @@
                                             <p class="statuActive"><strong>Status:</strong>@status</p> <button type="submit" class="printGreen">Print UDIN</button>
                                             @if (item.IsValid == "Y" || item.IsValid == "1")
                                             {
-                                                <button type="button" class="revokeRed" onclick="location.href='@Url.Action("CancelUDIN", "Home", @item)'">Revoke UDIN</button>
+                                                <button type="button" class="revokeRed" style="background-color: rgb(45, 70, 144); color:#fff;" onclick="location.href='@Url.Action("CancelUDIN", "Home", @item)'">Revoke UDIN</button>
                                             }
                                         </td>
 
@@ -84,11 +86,11 @@
 
 
                         </tbody>
-                        </table>
+                    </table>
                 </div>
                 @*<div class="SendOtpBtn">
-                    <button type="submit">Submit</button>
-                </div>*@
+                        <button type="submit">Submit</button>
+                    </div>*@
             </form>
         </div>
     </div>

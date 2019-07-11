@@ -4,15 +4,30 @@
     Layout = "~/Views/Shared/_LayoutLogin.cshtml";
 }
 
+<style>
+    #ui-datepicker-div {
+        background: #fff;
+        border: #ccc 1px solid;
+        padding: 10px;
+    }
+</style>
+
+
 @using (Html.BeginForm("GenerateUDIN", "Home"))
 {
+    string Message = ViewBag.Message == null ? string.Empty : ViewBag.Message;
+    string color = "red";
+    if (Message.Contains("UDIN has been generated successfully") || Message.Contains("Please refresh the page"))
+    {
+        color = "green";
+    }  
     <div class="container">
         <div id="loginformblock">
             <div class="card loginformRegistrn">
                 <div>
                     <h4 class="formgheader">Generate UDIN</h4>
                 </div>
-                <label style="color:red;">@ViewBag.Message</label>
+                <label style="color:@color">@Message</label>
                 @*<form>*@
                 <div class="form-group siderbarlgnform">
                     @*<input type="text" class="form-control formblock" id="email" placeholder="Membership Registration Number or MRN" name="email">*@
@@ -42,20 +57,20 @@
                         <h5 class="documentType">Document Type:</h5>
                     </label>
                     @*<label class="containerCheckbox" onclick="checkboxclick();">
-                            Certificates <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
-                            <input type="checkbox" checked="checked" id="chkCertificates">
-                            <span class="checkmark"></span>
-                        </label>*@
+                Certificates <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
+                <input type="checkbox" checked="checked" id="chkCertificates">
+                <span class="checkmark"></span>
+            </label>*@
                     @*<label class="containerCheckbox">
-                            Gst and Tax Audit <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
-                            <input type="checkbox">
-                            <span class="checkmark"></span>
-                        </label>*@
+                Gst and Tax Audit <span class="icon"><i class="fa fa-info" style="color:black;"></i></span>
+                <input type="checkbox">
+                <span class="checkmark"></span>
+            </label>*@
                     @*<label class="containerCheckbox" onclick="checkboxclick();">
-                            Other Attest Functions<span class="icon"> <i class="fa fa-info" style="color:black;"></i></span>
-                            <input type="checkbox" id="chkOther">
-                            <span class="checkmark"></span>
-                        </label>*@
+                Other Attest Functions<span class="icon"> <i class="fa fa-info" style="color:black;"></i></span>
+                <input type="checkbox" id="chkOther">
+                <span class="checkmark"></span>
+            </label>*@
                     @Html.RadioButton("rdbgroup", "1", isChecked: true)&nbsp;@Html.Label("Certificates")
                     @Html.RadioButton("rdbgroup", "2", isChecked: false)&nbsp;@Html.Label("Reports")
                     @Html.RadioButton("rdbgroup", "3", isChecked: false)&nbsp;@Html.Label("Others")
@@ -70,24 +85,25 @@
                     @Html.RadioButton("rdbUDINgroup", "3", isChecked: false)&nbsp;@Html.Label("Not Applicable")
                     <br />
                     <label class="checkbox-inline">
-                        <h5 class="documentType"><a href="#">(Click here to download)</a></h5>
+                        <h5 class="documentType"><a href="~/PDF/FormasperRule8.pdf" target="_blank">(Click here to download)</a></h5>
                     </label>
                 </div>
                 <div class="form-group siderbarlgnform" id="dvCertificate">
                     @Html.DropDownListFor(model => model.CertificateId, new SelectList(Model.lstCertificates, "CertificateId", "CertificateName"), new { @class = "dropDown" })
-                   
+
+                </div>
+                <div class="form-group siderbarlgnform" id="dvDescription">
+
+                    @Html.EditorFor(model => model.DocDescription, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Document Description(Do not disclose client details)" } })
+
                 </div>
                 <div class="form-group siderbarlgnform">
                     @Html.EditorFor(model => model.DateOfSigningDoc, new { htmlAttributes = new { id = "DateOfSigningDoc", @class = "form-control formblock", placeholder = "Date of signing of document(DD/MM/YYYY)", @readonly = "true" } })
 
-             
+
                     @Html.ValidationMessageFor(model => model.DateOfSigningDoc, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group siderbarlgnform" id="dvDescription">
-                 
-                    @Html.EditorFor(model => model.DocDescription, new { htmlAttributes = new { @class = "form-control formblock", @placeholder = "Document Description(Do not disclose client details)" } })
-                 
-                </div>
+
                 <div class="submitbtn">
                     <button type="submit">Generate UDIN</button>
                 </div>

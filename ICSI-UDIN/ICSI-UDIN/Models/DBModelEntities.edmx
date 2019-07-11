@@ -119,7 +119,7 @@
           <Property Name="LastName" Type="varchar" MaxLength="50" />
           <Property Name="DOB" Type="date" />
           <Property Name="MobileNumber" Type="varchar" MaxLength="10" />
-          <Property Name="EmailId" Type="varchar" MaxLength="20" />
+          <Property Name="EmailId" Type="char" MaxLength="320" />
           <Property Name="CreatedDate" Type="datetime" />
           <Property Name="UType" Type="char" MaxLength="1" />
         </EntityType>
@@ -170,6 +170,8 @@
           <Parameter Name="FinancialYear" Type="varchar" Mode="In" />
           <Parameter Name="FromDate" Type="varchar" Mode="In" />
           <Parameter Name="ToDate" Type="varchar" Mode="In" />
+          <Parameter Name="MembershipNo" Type="varchar" Mode="In" />
+          <Parameter Name="MembershipName" Type="varchar" Mode="In" />
         </Function>
         <Function Name="RP_UDINVerification" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="FName" Type="varchar" Mode="In" />
@@ -202,6 +204,65 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ICSI_StimulateModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="ICSI_DBModelEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="GetTotalUserUDIN" ReturnType="Collection(ICSI_StimulateModel.GetTotalUserUDIN_Result)" />
+          <FunctionImport Name="RevokeUDIN">
+            <Parameter Name="UDINID" Mode="In" Type="Int32" />
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UDINReason" Mode="In" Type="String" />
+            <Parameter Name="UDINNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RP_GetUDINList">
+            <Parameter Name="UserId" Mode="In" Type="Int32" />
+            <Parameter Name="UDINNumber" Mode="In" Type="String" />
+            <Parameter Name="FinancialYear" Mode="In" Type="String" />
+            <Parameter Name="FromDate" Mode="In" Type="String" />
+            <Parameter Name="ToDate" Mode="In" Type="String" />
+            <Parameter Name="MembershipNo" Mode="In" Type="String" />
+            <Parameter Name="MembershipName" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="RP_UDINVerification" ReturnType="Collection(ICSI_StimulateModel.RP_UDINVerification_Result)">
+            <Parameter Name="FName" Mode="In" Type="String" />
+            <Parameter Name="EmailId" Mode="In" Type="String" />
+            <Parameter Name="MobileNumber" Mode="In" Type="String" />
+            <Parameter Name="MembershipNumber" Mode="In" Type="String" />
+          </FunctionImport>
+          <EntitySet Name="tblCertificateTypes" EntityType="ICSI_StimulateModel.tblCertificateType" />
+          <EntitySet Name="tblComplaints" EntityType="ICSI_StimulateModel.tblComplaint" />
+          <EntitySet Name="tblDocParticulars" EntityType="ICSI_StimulateModel.tblDocParticular" />
+          <EntitySet Name="tblDocumentTypes" EntityType="ICSI_StimulateModel.tblDocumentType" />
+          <EntitySet Name="tblErrorLogs" EntityType="ICSI_StimulateModel.tblErrorLog" />
+          <EntitySet Name="tblGenerateUDINs" EntityType="ICSI_StimulateModel.tblGenerateUDIN" />
+          <EntitySet Name="tblRevokeUDINs" EntityType="ICSI_StimulateModel.tblRevokeUDIN" />
+          <EntitySet Name="tblStatus" EntityType="ICSI_StimulateModel.tblStatu" />
+          <EntitySet Name="tblUDINs" EntityType="ICSI_StimulateModel.tblUDIN" />
+          <EntitySet Name="tblUsers" EntityType="ICSI_StimulateModel.tblUser" />
+          <EntitySet Name="tblUserActivities" EntityType="ICSI_StimulateModel.tblUserActivity" />
+          <AssociationSet Name="FK_tblRevokeUDIN_tblUDIN" Association="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUDIN">
+            <End Role="tblUDIN" EntitySet="tblUDINs" />
+            <End Role="tblRevokeUDIN" EntitySet="tblRevokeUDINs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_tblRevokeUDIN_tblUser" Association="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser">
+            <End Role="tblUser" EntitySet="tblUsers" />
+            <End Role="tblRevokeUDIN" EntitySet="tblRevokeUDINs" />
+          </AssociationSet>
+        </EntityContainer>
+        <ComplexType Name="GetTotalUserUDIN_Result">
+          <Property Type="Int32" Name="TotalUDINs" Nullable="true" />
+          <Property Type="Int32" Name="TotalUsers" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="RP_UDINVerification_Result">
+          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
+          <Property Type="String" Name="UDINUniqueCode" Nullable="true" MaxLength="20" />
+          <Property Type="String" Name="MembershipDetilas" Nullable="true" MaxLength="64" />
+          <Property Type="String" Name="DocumentType" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="TypeofCertificate" Nullable="true" MaxLength="300" />
+          <Property Type="DateTime" Name="DateofSigingDoc" Nullable="true" Precision="23" />
+          <Property Type="String" Name="FigParticular" Nullable="false" MaxLength="1" />
+          <Property Type="String" Name="MembershipNumber" Nullable="false" MaxLength="14" />
+          <Property Type="String" Name="DocumentDesription" Nullable="true" />
+          <Property Type="String" Name="IsValid" Nullable="true" MaxLength="1" />
+        </ComplexType>
         <EntityType Name="tblCertificateType">
           <Key>
             <PropertyRef Name="ID" />
@@ -260,8 +321,20 @@
             <PropertyRef Name="UDINGenerationId" />
           </Key>
           <Property Name="UDINGenerationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="FinancialYear" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="FinancialYear" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="TotalCount" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="tblRevokeUDIN">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UDINId" Type="Int32" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="UDINReason" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="tblUDIN" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUDIN" FromRole="tblRevokeUDIN" ToRole="tblUDIN" />
+          <NavigationProperty Name="tblUser" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser" FromRole="tblRevokeUDIN" ToRole="tblUser" />
         </EntityType>
         <EntityType Name="tblStatu">
           <Key>
@@ -271,98 +344,6 @@
           <Property Name="StatusCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="StatusDesc" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
-        <EntityType Name="tblUser">
-          <Key>
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="DOB" Type="DateTime" Precision="0" />
-          <Property Name="MobileNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Name="EmailId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <Property Name="UType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
-          <NavigationProperty Name="tblRevokeUDINs" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser" FromRole="tblUser" ToRole="tblRevokeUDIN" />
-        </EntityType>
-        <EntityType Name="tblUserActivity">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="ActionName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="UserRequestId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-        </EntityType>
-        <EntityContainer Name="ICSI_DBModleEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="tblCertificateTypes" EntityType="Self.tblCertificateType" />
-          <EntitySet Name="tblComplaints" EntityType="Self.tblComplaint" />
-          <EntitySet Name="tblDocParticulars" EntityType="Self.tblDocParticular" />
-          <EntitySet Name="tblDocumentTypes" EntityType="Self.tblDocumentType" />
-          <EntitySet Name="tblErrorLogs" EntityType="Self.tblErrorLog" />
-          <EntitySet Name="tblGenerateUDINs" EntityType="Self.tblGenerateUDIN" />
-          <EntitySet Name="tblStatus" EntityType="Self.tblStatu" />
-          <EntitySet Name="tblUsers" EntityType="Self.tblUser" />
-          <EntitySet Name="tblUserActivities" EntityType="Self.tblUserActivity" />
-          <FunctionImport Name="RevokeUDIN">
-            <Parameter Name="UDINID" Mode="In" Type="Int32" />
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="UDINReason" Mode="In" Type="String" />
-            <Parameter Name="UDINNumber" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="RP_GetUDINList" ReturnType="Collection(ICSI_StimulateModel.RP_GetUDINList_Result)">
-            <Parameter Name="UserId" Mode="In" Type="Int32" />
-            <Parameter Name="UDINNumber" Mode="In" Type="String" />
-            <Parameter Name="FinancialYear" Mode="In" Type="String" />
-            <Parameter Name="FromDate" Mode="In" Type="String" />
-            <Parameter Name="ToDate" Mode="In" Type="String" />
-          </FunctionImport>
-          <FunctionImport Name="RP_UDINVerification" ReturnType="Collection(ICSI_StimulateModel.RP_UDINVerification_Result)">
-            <Parameter Name="FName" Mode="In" Type="String" />
-            <Parameter Name="EmailId" Mode="In" Type="String" />
-            <Parameter Name="MobileNumber" Mode="In" Type="String" />
-            <Parameter Name="MembershipNumber" Mode="In" Type="String" />
-          </FunctionImport>
-          <EntitySet Name="tblUDINs" EntityType="ICSI_StimulateModel.tblUDIN" />
-          <EntitySet Name="tblRevokeUDINs" EntityType="ICSI_StimulateModel.tblRevokeUDIN" />
-          <AssociationSet Name="FK_tblRevokeUDIN_tblUDIN" Association="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUDIN">
-            <End Role="tblUDIN" EntitySet="tblUDINs" />
-            <End Role="tblRevokeUDIN" EntitySet="tblRevokeUDINs" />
-          </AssociationSet>
-          <AssociationSet Name="FK_tblRevokeUDIN_tblUser" Association="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser">
-            <End Role="tblUser" EntitySet="tblUsers" />
-            <End Role="tblRevokeUDIN" EntitySet="tblRevokeUDINs" />
-          </AssociationSet>
-          <FunctionImport Name="GetTotalUserUDIN" ReturnType="Collection(ICSI_StimulateModel.GetTotalUserUDIN_Result)" />
-        </EntityContainer>
-        <ComplexType Name="RP_GetUDINList_Result">
-          <Property Type="String" Name="MembershipNumber" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="MRN" Nullable="true" MaxLength="165" />
-          <Property Type="String" Name="DocumentType" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="DocumentDescription" Nullable="true" MaxLength="200" />
-          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="FinancialYear" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="ClientName" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="CINNumber" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="MemberDetails" Nullable="true" MaxLength="150" />
-          <Property Type="String" Name="IsValid" Nullable="true" MaxLength="1" />
-        </ComplexType>
-        <ComplexType Name="RP_UDINVerification_Result">
-          <Property Type="DateTime" Name="CreatedDate" Nullable="true" Precision="23" />
-          <Property Type="String" Name="UDINUniqueCode" Nullable="true" MaxLength="20" />
-          <Property Type="String" Name="MembershipDetilas" Nullable="true" MaxLength="64" />
-          <Property Type="String" Name="DocumentType" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="TypeofCertificate" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="DateofSigingDoc" Nullable="true" Precision="23" />
-          <Property Type="String" Name="FigParticular" Nullable="false" MaxLength="1" />
-          <Property Type="String" Name="MembershipNumber" Nullable="false" MaxLength="14" />
-          <Property Type="String" Name="DocumentDesription" Nullable="true" MaxLength="300" />
-          <Property Type="String" Name="IsValid" Nullable="true" MaxLength="1" />
-        </ComplexType>
         <EntityType Name="tblUDIN">
           <Key>
             <PropertyRef Name="ID" />
@@ -387,17 +368,32 @@
           <Property Name="DateOfSigningDoc" Type="DateTime" Nullable="false" Precision="0" />
           <NavigationProperty Name="tblRevokeUDINs" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUDIN" FromRole="tblUDIN" ToRole="tblRevokeUDIN" />
         </EntityType>
-        <EntityType Name="tblRevokeUDIN">
+        <EntityType Name="tblUser">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="UserId" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UDINId" Type="Int32" />
-          <Property Name="UserId" Type="Int32" />
-          <Property Name="UDINReason" Type="String" MaxLength="300" FixedLength="false" Unicode="false" />
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MiddleName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="MobileNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="EmailId" Type="String" MaxLength="320" FixedLength="true" Unicode="false" />
           <Property Name="CreatedDate" Type="DateTime" Precision="3" />
-          <NavigationProperty Name="tblUDIN" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUDIN" FromRole="tblRevokeUDIN" ToRole="tblUDIN" />
-          <NavigationProperty Name="tblUser" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser" FromRole="tblRevokeUDIN" ToRole="tblUser" />
+          <Property Name="UType" Type="String" MaxLength="1" FixedLength="true" Unicode="false" />
+          <NavigationProperty Name="tblRevokeUDINs" Relationship="ICSI_StimulateModel.FK_tblRevokeUDIN_tblUser" FromRole="tblUser" ToRole="tblRevokeUDIN" />
+        </EntityType>
+        <EntityType Name="tblUserActivity">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PageName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="ActionName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="UserRequestId" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="CreatedDate" Type="DateTime" Precision="3" />
         </EntityType>
         <Association Name="FK_tblRevokeUDIN_tblUDIN">
           <End Type="ICSI_StimulateModel.tblUDIN" Role="tblUDIN" Multiplicity="0..1" />
@@ -423,137 +419,22 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="GetTotalUserUDIN_Result">
-          <Property Type="Int32" Name="TotalUDINs" Nullable="true" />
-          <Property Type="Int32" Name="TotalUsers" Nullable="true" />
-        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="ICSI_StimulateModelStoreContainer" CdmEntityContainer="ICSI_DBModleEntities">
-          <EntitySetMapping Name="tblCertificateTypes">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblCertificateType">
-              <MappingFragment StoreEntitySet="tblCertificateType">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="CertificateType" ColumnName="CertificateType" />
-                <ScalarProperty Name="CertificateDesc" ColumnName="CertificateDesc" />
-                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblComplaints">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblComplaint">
-              <MappingFragment StoreEntitySet="tblComplaint">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="MembershipNumber" ColumnName="MembershipNumber" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="ComplaintDesc" ColumnName="ComplaintDesc" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblDocParticulars">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblDocParticular">
-              <MappingFragment StoreEntitySet="tblDocParticular">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ParticularType" ColumnName="ParticularType" />
-                <ScalarProperty Name="ParticularDesc" ColumnName="ParticularDesc" />
-                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblDocumentTypes">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblDocumentType">
-              <MappingFragment StoreEntitySet="tblDocumentType">
-                <ScalarProperty Name="TypesOfDocument" ColumnName="TypesOfDocument" />
-                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
-                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
-                <ScalarProperty Name="TypeDesc" ColumnName="TypeDesc" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
-                <ScalarProperty Name="IssueCerNo" ColumnName="IssueCerNo" />
-                <ScalarProperty Name="IssueCerPNo" ColumnName="IssueCerPNo" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblErrorLogs">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblErrorLog">
-              <MappingFragment StoreEntitySet="tblErrorLog">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
-                <ScalarProperty Name="ErrorType" ColumnName="ErrorType" />
-                <ScalarProperty Name="ErrorDescription" ColumnName="ErrorDescription" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblGenerateUDINs">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblGenerateUDIN">
-              <MappingFragment StoreEntitySet="tblGenerateUDIN">
-                <ScalarProperty Name="UDINGenerationId" ColumnName="UDINGenerationId" />
-                <ScalarProperty Name="FinancialYear" ColumnName="FinancialYear" />
-                <ScalarProperty Name="TotalCount" ColumnName="TotalCount" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblStatus">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblStatu">
-              <MappingFragment StoreEntitySet="tblStatus">
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
-                <ScalarProperty Name="StatusDesc" ColumnName="StatusDesc" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblUsers">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblUser">
-              <MappingFragment StoreEntitySet="tblUser">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
-                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UType" ColumnName="UType" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="tblUserActivities">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblUserActivity">
-              <MappingFragment StoreEntitySet="tblUserActivity">
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="PageName" ColumnName="PageName" />
-                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
-                <ScalarProperty Name="UserRequestId" ColumnName="UserRequestId" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="RevokeUDIN" FunctionName="ICSI_StimulateModel.Store.RevokeUDIN" />
-          <FunctionImportMapping FunctionImportName="RP_GetUDINList" FunctionName="ICSI_StimulateModel.Store.RP_GetUDINList">
+        <EntityContainerMapping StorageEntityContainer="ICSI_StimulateModelStoreContainer" CdmEntityContainer="ICSI_DBModelEntities">
+          <FunctionImportMapping FunctionImportName="GetTotalUserUDIN" FunctionName="ICSI_StimulateModel.Store.GetTotalUserUDIN">
             <ResultMapping>
-              <ComplexTypeMapping TypeName="ICSI_StimulateModel.RP_GetUDINList_Result">
-                <ScalarProperty Name="MembershipNumber" ColumnName="MembershipNumber" />
-                <ScalarProperty Name="MRN" ColumnName="MRN" />
-                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
-                <ScalarProperty Name="DocumentDescription" ColumnName="DocumentDescription" />
-                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="FinancialYear" ColumnName="FinancialYear" />
-                <ScalarProperty Name="ClientName" ColumnName="ClientName" />
-                <ScalarProperty Name="CINNumber" ColumnName="CINNumber" />
-                <ScalarProperty Name="MemberDetails" ColumnName="MemberDetails" />
-                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+              <ComplexTypeMapping TypeName="ICSI_StimulateModel.GetTotalUserUDIN_Result">
+                <ScalarProperty Name="TotalUDINs" ColumnName="TotalUDINs" />
+                <ScalarProperty Name="TotalUsers" ColumnName="TotalUsers" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="RevokeUDIN" FunctionName="ICSI_StimulateModel.Store.RevokeUDIN" />
+          <FunctionImportMapping FunctionImportName="RP_GetUDINList" FunctionName="ICSI_StimulateModel.Store.RP_GetUDINList" />
           <FunctionImportMapping FunctionImportName="RP_UDINVerification" FunctionName="ICSI_StimulateModel.Store.RP_UDINVerification">
             <ResultMapping>
               <ComplexTypeMapping TypeName="ICSI_StimulateModel.RP_UDINVerification_Result">
@@ -570,6 +451,93 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="tblCertificateTypes">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblCertificateType">
+              <MappingFragment StoreEntitySet="tblCertificateType">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="CertificateDesc" ColumnName="CertificateDesc" />
+                <ScalarProperty Name="CertificateType" ColumnName="CertificateType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblComplaints">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblComplaint">
+              <MappingFragment StoreEntitySet="tblComplaint">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ComplaintDesc" ColumnName="ComplaintDesc" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="MembershipNumber" ColumnName="MembershipNumber" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDocParticulars">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblDocParticular">
+              <MappingFragment StoreEntitySet="tblDocParticular">
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+                <ScalarProperty Name="ParticularDesc" ColumnName="ParticularDesc" />
+                <ScalarProperty Name="ParticularType" ColumnName="ParticularType" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblDocumentTypes">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblDocumentType">
+              <MappingFragment StoreEntitySet="tblDocumentType">
+                <ScalarProperty Name="TypesOfDocument" ColumnName="TypesOfDocument" />
+                <ScalarProperty Name="IssueCerPNo" ColumnName="IssueCerPNo" />
+                <ScalarProperty Name="IssueCerNo" ColumnName="IssueCerNo" />
+                <ScalarProperty Name="IsValid" ColumnName="IsValid" />
+                <ScalarProperty Name="TypeDesc" ColumnName="TypeDesc" />
+                <ScalarProperty Name="DocumentType" ColumnName="DocumentType" />
+                <ScalarProperty Name="DocumentTypeID" ColumnName="DocumentTypeID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblErrorLogs">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblErrorLog">
+              <MappingFragment StoreEntitySet="tblErrorLog">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="ErrorDescription" ColumnName="ErrorDescription" />
+                <ScalarProperty Name="ErrorType" ColumnName="ErrorType" />
+                <ScalarProperty Name="ErrorCode" ColumnName="ErrorCode" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblGenerateUDINs">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblGenerateUDIN">
+              <MappingFragment StoreEntitySet="tblGenerateUDIN">
+                <ScalarProperty Name="TotalCount" ColumnName="TotalCount" />
+                <ScalarProperty Name="FinancialYear" ColumnName="FinancialYear" />
+                <ScalarProperty Name="UDINGenerationId" ColumnName="UDINGenerationId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblRevokeUDINs">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblRevokeUDIN">
+              <MappingFragment StoreEntitySet="tblRevokeUDIN">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UDINReason" ColumnName="UDINReason" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UDINId" ColumnName="UDINId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="tblStatus">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblStatu">
+              <MappingFragment StoreEntitySet="tblStatus">
+                <ScalarProperty Name="StatusDesc" ColumnName="StatusDesc" />
+                <ScalarProperty Name="StatusCode" ColumnName="StatusCode" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="tblUDINs">
             <EntityTypeMapping TypeName="ICSI_StimulateModel.tblUDIN">
               <MappingFragment StoreEntitySet="tblUDIN">
@@ -594,25 +562,34 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="tblRevokeUDINs">
-            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblRevokeUDIN">
-              <MappingFragment StoreEntitySet="tblRevokeUDIN">
+          <EntitySetMapping Name="tblUsers">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblUser">
+              <MappingFragment StoreEntitySet="tblUser">
+                <ScalarProperty Name="UType" ColumnName="UType" />
                 <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
-                <ScalarProperty Name="UDINReason" ColumnName="UDINReason" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="MiddleName" ColumnName="MiddleName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="UDINId" ColumnName="UDINId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="GetTotalUserUDIN" FunctionName="ICSI_StimulateModel.Store.GetTotalUserUDIN">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="ICSI_StimulateModel.GetTotalUserUDIN_Result">
-                <ScalarProperty Name="TotalUDINs" ColumnName="TotalUDINs" />
-                <ScalarProperty Name="TotalUsers" ColumnName="TotalUsers" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
+          <EntitySetMapping Name="tblUserActivities">
+            <EntityTypeMapping TypeName="ICSI_StimulateModel.tblUserActivity">
+              <MappingFragment StoreEntitySet="tblUserActivity">
+                <ScalarProperty Name="CreatedDate" ColumnName="CreatedDate" />
+                <ScalarProperty Name="UserRequestId" ColumnName="UserRequestId" />
+                <ScalarProperty Name="ActionName" ColumnName="ActionName" />
+                <ScalarProperty Name="PageName" ColumnName="PageName" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -165,10 +165,13 @@
                                 <a href="https://smash.icsi.in/Scripts/Complaint/ComplaintForm.aspx" target="_blank">Helpdesk</a>
                             </li>
                             <li style="padding:0 10px;">
-                                <a href="#">FAQs</a>
+                                <a href="~/PDF/TestingofStagingserveUDINlink.pdf" target="_blank">FAQs</a>
+                                @*@Html.ActionLink("FAQs", "download", "Home", new { Parameter = "FAQs" })*@
                             </li>
                             <li style="padding:0 10px;">
-                                <button id="DownloadListBtn" class="ExitLogoutBtn center-block" type="button" onclick="location.href='@Url.Action("ExportToExcel", "Home",@ViewBag.MembershipNumber)'">Guidelines</button>
+                                @*<a href="#">Guidelines</a>*@
+                                @*@Html.ActionLink("Guidelines", "download", "Home",new { Parameter= "Guidelines" })*@
+                                <a href="~/PDF/UdinGuidelines.pdf" target="_blank">Guidelines</a>
                             </li>
                         </ul>
                     </div>

@@ -176,9 +176,7 @@
     </Compile>
     <Compile Include="Models\Login.cs" />
     <Compile Include="Models\MemberRegistration.cs" />
-    <Compile Include="Models\RP_GetUDINList_Result.cs">
-      <DependentUpon>DBModelEntities.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\RP_GetUDINList_Result.cs" />
     <Compile Include="Models\RP_UDINVerification_Result.cs">
       <DependentUpon>DBModelEntities.tt</DependentUpon>
     </Compile>
@@ -307,6 +305,7 @@
       <LastGenOutput>DBModelEntities.cs</LastGenOutput>
     </Content>
     <Content Include="PDF\Unique Document Identification Number %28UDIN%29.pptx" />
+    <Content Include="PDF\UdinGuidelines.pdf" />
     <EntityDeploy Include="Models\DBModelEntities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>DBModelEntities.Designer.cs</LastGenOutput>
@@ -314,7 +313,8 @@
     <Content Include="Models\DBModelEntities.edmx.diagram">
       <DependentUpon>DBModelEntities.edmx</DependentUpon>
     </Content>
-    <Content Include="PDF\UdinGuidelines.pdf" />
+    <Content Include="PDF\FormasperRule8.pdf" />
+    <Content Include="PDF\TestingofStagingserveUDINlink.pdf" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -354,6 +354,8 @@
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Home\GenerateUDIN.cshtml" />
     <Content Include="Views\Home\UDINDocumentDetails.cshtml" />
+    <Content Include="Views\Home\NewPassword.cshtml" />
+    <Content Include="Views\Home\ForgotPassword.cshtml" />
     <None Include="Web References\ICSI_SoapService\Service.disco" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -373,7 +375,6 @@
     <Content Include="Views\Home\UDINVerification.cshtml" />
     <Content Include="Views\Home\MembershipRegistation.cshtml" />
     <Content Include="Views\Home\SearchUDIN.cshtml" />
-    <Content Include="Views\Home\ForgetPassword.cshtml" />
     <Content Include="Views\Home\HelpDeskFacilty.cshtml" />
     <None Include="Web References\ICSI_SoapService\Service.wsdl" />
   </ItemGroup>

@@ -15,8 +15,9 @@ namespace ICSI_UDIN.Repository
 {
     public class UserRepository : IUserRepository
     {
-        private ICSI_DBModleEntities DBcontext;
-        public UserRepository(ICSI_DBModleEntities objusercontext)
+        
+        private ICSI_DBModelEntities DBcontext;
+        public UserRepository(ICSI_DBModelEntities objusercontext)
         {
             this.DBcontext = objusercontext;
         }
@@ -225,7 +226,6 @@ namespace ICSI_UDIN.Repository
         {
             try
             {
-
                 if (obj.UDIN == null)
                 {
                     obj.UDIN = string.Empty;
@@ -237,17 +237,29 @@ namespace ICSI_UDIN.Repository
                 if (obj.FromDate == null)
                 {
                     obj.FromDate = string.Empty;
-
                 }
                 if (obj.ToDate == null)
                 {
                     obj.ToDate = string.Empty;
                 }
+                if (obj.MembershipNo == null)
+                {
+                    obj.MembershipNo = string.Empty;
+                }
+                if (obj.MembershipName == null)
+                {
+                    obj.MembershipName = string.Empty;
+                }
+                
                 var result = DBcontext.Database.SqlQuery<RP_GetUDINList_Result>(
-                "exec [dbo].[RP_GetUDINList] @UserId,@UDINNumber,@FinancialYear,@FromDate,@ToDate",
+                "exec [dbo].[RP_GetUDINList] @UserId,@UDINNumber,@FinancialYear,@FromDate,@ToDate,@MembershipNo,@MembershipName",
                 new Object[] { new SqlParameter("@UserId", obj.UserId),
-                               new SqlParameter("@UDINNumber", obj.UDIN),new SqlParameter("@FinancialYear", obj.FinancialYear),new SqlParameter("@FromDate", obj.FromDate),
-                new SqlParameter("@ToDate", obj.ToDate)}
+                               new SqlParameter("@UDINNumber", obj.UDIN),
+                               new SqlParameter("@FinancialYear", obj.FinancialYear),
+                               new SqlParameter("@FromDate", obj.FromDate),
+                               new SqlParameter("@ToDate", obj.ToDate),
+                               new SqlParameter("@MembershipNo", obj.MembershipNo),
+                               new SqlParameter("@MembershipName", obj.MembershipName)}
                 ).ToList();
                 return result;
             }
@@ -325,7 +337,7 @@ namespace ICSI_UDIN.Repository
                              ord.UDINUniqueCode
                          }).ToList();
 
-            if (udnId.Count == 0)
+            if (udnId.Count==0)
             {
                 flag = false;
             }
@@ -426,6 +438,75 @@ namespace ICSI_UDIN.Repository
 
         }
 
+        public bool CheckUdnExistance(string UDNNumber)
+        {
+            bool flag = false;
+            var udnId = (from UDINs in DBcontext.tblUDINs
+                         where UDINs.UDINUniqueCode == UDNNumber
+                         select new
+                         {
+                             UDINs.UDINUniqueCode
+                         }).ToList();
+
+            if (udnId.Count == 0)
+                flag = false;
+            else
+                flag = true;
+
+            return flag;
+        }
+        public List<Forgotpassword> FogotPassword(string MemmbershipNumber, DateTime DOB, int YearOfEnrollment)
+        {
+            List<Forgotpassword> userInfo = new List<Forgotpassword>();
+            try
+            {
+                var useremail = (from user in DBcontext.tblUsers
+                                 join udn in DBcontext.tblUDINs
+                                 on user.UserId equals udn.UserId
+                                 where (udn.MembershipNumber == MemmbershipNumber && user.DOB == DOB && udn.YearOfEnrollment == YearOfEnrollment)
+                                 select new
+                                 {
+                                     user.EmailId
+                                 }).ToList();
+                foreach (var user in useremail)
+                {
+                    Forgotpassword obj = new Forgotpassword
+                    {
+                        EmailId = user.EmailId
+
+                    };
+                    userInfo.Add(obj);
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return userInfo;
+        }
+
+
+        public void UpdatePassword(tblUser objuser)
+        {
+            try
+            {
+                tblUser c = (from x in DBcontext.tblUsers
+                             where x.EmailId == objuser.EmailId
+                             select x).First();
+                c.Password = objuser.Password;
+                DBcontext.SaveChanges();
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
 
     }
+
+
 }
+
+
+   

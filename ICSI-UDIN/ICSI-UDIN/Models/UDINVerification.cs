@@ -8,11 +8,11 @@ namespace ICSI_UDIN.Models
 {
     public class UDINVerification
     {
-        [Required]
+      
         public string FName { get; set; }
-        [Required]
+     
         public string EmailId { get; set; }
-        [Required]
+      
         public string MobileNumber { get; set; }
         [Required]
         public string MembershipNumber { get; set; }
